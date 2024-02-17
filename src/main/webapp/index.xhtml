@@ -6,7 +6,12 @@
    xmlns:h = "http://java.sun.com/jsf/html"
    xmlns:ui = "http://java.sun.com/jsf/facelets">
    
-   <h:body> 
+   <h:body>
+       <script type="text/javascript">
+           window.onload = function () {
+               window.location.href = "/nts/faces/forgot-password.xhtml";
+           }
+       </script>
       <ui:composition template = "/WEB-INF/templates/common.xhtml">
          <ui:define name = "header">
             <h2>Page1 header</h2>
