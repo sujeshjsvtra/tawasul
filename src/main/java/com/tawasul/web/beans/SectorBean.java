@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,9 +21,6 @@ import lombok.Setter;
 @EqualsAndHashCode
 @ViewScoped
 @Named
-//JSF
-//@ManagedBean(name = "sectorBean")
-//@ViewScoped
 public class SectorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,20 +38,10 @@ public class SectorBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("PostConstruct SectorBean: " + LocalDateTime.now());
-		//JSF
-//		sectorService = new SectorService();
-//		this.sectors = this.sectorService.getSectors();
 		this.sector = new Sector();
 	}
 
 	public void createSector() {
-		System.out.println("Save");
 		System.out.println(this.getSectorName());
 	}
-
-	public void setSectorService(SectorService sectorService) {
-		this.sectorService = sectorService;
-	}
-
 }
