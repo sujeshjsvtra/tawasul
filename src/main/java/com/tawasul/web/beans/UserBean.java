@@ -60,7 +60,11 @@ public class UserBean implements Serializable {
 		setRandomPassword(pwd);
 	}
 
-	public void save() {
+	public void checkUser() {
+		System.out.println("Check if user exists" + user.getEmail());
+	}
+
+	public void createUser() {
 		System.out.println("Save");
 
 	}
