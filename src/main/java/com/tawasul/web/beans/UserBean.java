@@ -1,27 +1,30 @@
 package com.tawasul.web.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.hibernate.Session;
 
 import com.tawasul.web.model.User;
+import com.tawasul.web.util.HibernateUtil;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Named("userBean")
 @RequestScoped
-//@RequestScoped
-//@ManagedBean(name = "userBean")
+@NoArgsConstructor(force = true)
 public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,28 +32,30 @@ public class UserBean implements Serializable {
 	private User user;
 	private String randomPassword = "";
 	private String PASSWORD_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	// ~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?"
+
+	@Inject
+	private Session session;
+
+	@Inject
+	private HibernateUtil hibernateUtil;
 
 	@PostConstruct
 	public void init() {
 		user = new User();
 		setRandomPassword("");
+		session = hibernateUtil.getSessionFactory().openSession();
 	}
 
-	public void login() {
-		FacesMessage message = null;
+	public void createUser() {
+		session.beginTransaction();
 
-		boolean flag = false;
-		if (flag) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", getUser().getEmail());
-		} else {
-			// loggedIn = false;
-			// message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error",
-			// "Invalid credentials");
-		}
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<User> criteria = builder.createQuery(User.class);
+		criteria.from(User.class);
+		List<User> users = session.createQuery(criteria).getResultList();
 
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		// PrimeFaces.current().ajax().addCallbackParam("loggedIn", loggedIn);
+		System.out.println("Size of list is " + users.size());
+		session.close();
 	}
 
 	public void generatePassword() {
@@ -61,12 +66,6 @@ public class UserBean implements Serializable {
 	}
 
 	public void checkUser() {
-		System.out.println("Check if user exists" + user.getEmail());
-	}
-
-	public void createUser() {
-		System.out.println("Save");
-
 	}
 
 }

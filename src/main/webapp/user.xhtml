@@ -21,12 +21,14 @@
                     <p:panelGrid columns="2" cellpadding="5">
 
                         <h:outputLabel for="name" value="Name"/>
-                        <p:inputText id="name" required="false" label="name" placeholder="John Doe"  value="#{userBean.user.name}"/>
+                        <p:inputText id="name" required="false" label="name" placeholder="John Doe"  value="#{userBean.user.name}">
+                        <f:validateLength maximum="100"/>
+                        </p:inputText>
 
 
                         <h:outputLabel for="email" value="Email *"/>
 
-                        <p:inputText id="email" required="true" label="email" value="#{userBean.user.email}">
+                        <p:inputText id="email" required="true" label="email" value="#{userBean.user.email}" placeholder="johndoe@tawasul.net">
                             <p:ajax event="keyup" listener="#{userBean.checkUser}" update="email_message" />
                             <f:validateLength maximum="50"/>
                             <f:validateRegex
