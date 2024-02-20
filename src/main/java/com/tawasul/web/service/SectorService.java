@@ -1,13 +1,13 @@
 package com.tawasul.web.service;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-//JSF
-//import javax.faces.bean.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import lombok.Getter;
@@ -15,19 +15,18 @@ import lombok.Setter;
 
 import com.tawasul.web.model.Sector;
 
-//JSF
-//@ApplicationScoped
 @Named
-@ApplicationScoped
+@SessionScoped
 @Getter
 @Setter
-public class SectorService {
+public class SectorService implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private List<Sector> sectors;
 
 	@PostConstruct
 	public void init() {
-		System.out.println("PostConstruct SectorService: " + LocalDateTime.now());
 		setSectors(getSectors());
 	}
 
@@ -47,11 +46,6 @@ public class SectorService {
 		sectorsList.add(s1);
 		sectorsList.add(s2);
 
-		/*
-		 * // make sure to have unique codes for (Product product : results) {
-		 * product.setCode(UUID.randomUUID().toString().replace("-", "").substring(0,
-		 * 8)); }
-		 */
 		return sectorsList;
 	}
 }

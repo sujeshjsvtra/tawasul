@@ -8,8 +8,6 @@
     <packaging>war</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <primefaces.version>10.0</primefaces.version> <!-- Use the latest
-		PrimeFaces version -->
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
@@ -23,7 +21,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>8.0</version>
+            <version>10.0.0</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -48,11 +46,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.main.javaee-api</groupId>
+            <artifactId>javax.annotation</artifactId>
+            <version>3.1.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>jta</artifactId>
             <version>1.1</version>
         </dependency>
-
         <!--For Tomcat-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -60,8 +63,11 @@
             <version>2.3.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.omnifaces/omnifaces -->
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -4,15 +4,19 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
         version="2.3">
-
     <managed-bean>
         <managed-bean-name>sectorBean</managed-bean-name>
         <managed-bean-class>com.tawasul.web.beans.SectorBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>passwordBean</managed-bean-name>
+        <managed-bean-class>com.tawasul.web.beans.PasswordBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
-        <managed-property>
-            <property-name>sectorService</property-name>
-            <property-class>com.tawasul.web.service.SectorService</property-class>
-            <value>#{sectorService}</value>
-        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>userBean</managed-bean-name>
+        <managed-bean-class>com.tawasul.web.beans.UserBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 </faces-config>

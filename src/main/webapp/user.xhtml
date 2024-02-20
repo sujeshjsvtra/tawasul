@@ -1,0 +1,52 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+
+    <h1>Add User</h1>
+
+    <ui:composition template="/WEB-INF/templates/common.xhtml">
+
+        <ui:define name="content">
+
+            <div class="loginMainPanel">
+
+                <h:form id="form">
+                    <p:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel for="email" value="Email"/>
+                        <p:inputText id="email" required="true" label="email"
+                                     value="#{userBean.user.email}">
+                            <f:validateLength maximum="50"/>
+                            <f:validateRegex
+                                    label="Email"
+                                    pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"
+                                    validatorMessage="Email format is not valid"
+                            />
+                        </p:inputText>
+                        <p:message for="email" severity="warn"/>
+
+                        <p:commandButton value="Generate Password" update="random_password"
+                                         action="#{userBean.generatePassword}"/>
+
+
+                        <p:inputText id="random_password" value="#{userBean.randomPassword}"/>
+
+                        <p:commandButton value="Submit" update="growl"
+                                         action="#{userBean.save}"/>
+
+                    </p:panelGrid>
+                </h:form>
+            </div>
+        </ui:define>
+
+
+    </ui:composition>
+
+</h:body>
+</html>
