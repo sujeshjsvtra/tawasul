@@ -1,4 +1,4 @@
-package com.tawasul.web.resource;
+package com.tawasul.web.beans;
 
 import java.io.IOException;
 

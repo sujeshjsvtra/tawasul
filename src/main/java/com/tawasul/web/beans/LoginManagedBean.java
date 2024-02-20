@@ -1,4 +1,4 @@
-package com.tawasul.web.resource;
+package com.tawasul.web.beans;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 
+import com.tawasul.web.resource.LoginModel;
 import com.tawasul.web.util.SystemConstants;
 
 import java.io.IOException;
