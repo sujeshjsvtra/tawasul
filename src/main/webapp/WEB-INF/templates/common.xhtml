@@ -14,14 +14,14 @@
 <h:body>
     <h:outputStylesheet library="css" name="style.css"/>
     <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
-    <div style="border-width:2px; border-color:green; border-style:solid;">
+    <div >
         <ui:insert name="header">
             <ui:include src="/WEB-INF/templates/header.xhtml"/>
         </ui:insert>
     </div>
     <br/>
 
-    <div style="border-width:2px; border-color:black; border-style:solid;">
+    <div >
         <ui:insert name="content">
             <ui:include src="/WEB-INF/templates/contents.xhtml"/>
         </ui:insert>

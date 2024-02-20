@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+
+	<ui:composition template="/WEB-INF/templates/admin-template.xhtml">
+		 
+        <ui:define name="top">
+            <!-- Top Section: Common Header -->
+            <div id="header" style="height: 200px;">
+                <!-- Your common header content goes here -->
+                <h1>Common Header</h1>
+            </div>
+        </ui:define>
+         <ui:define name="content">
+            <!-- Content Area -->
+            <div id="main-content">
+                <!-- Your dynamic content goes here -->
+                <h2>Main Content</h2>
+            </div>
+        </ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

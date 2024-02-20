@@ -1,9 +1,12 @@
 package com.tawasul.web.resource;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
@@ -31,10 +34,21 @@ public class LoginManagedBean {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
         }
          
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        PrimeFaces.current().ajax().addCallbackParam("loggedIn", loggedIn);
+        // FacesContext.getCurrentInstance().addMessage(null, message);
+        // PrimeFaces.current().ajax().addCallbackParam("loggedIn", loggedIn);
+
+        redirectToPage("admin/admin-dashboard.xhtml");
     }  
 	
+    public void redirectToPage(String pageUrl) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = facesContext.getExternalContext();
+		try {
+			externalContext.redirect(pageUrl); // Specify the target page here
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public LoginModel getLoginModel() {
 		return loginModel;
