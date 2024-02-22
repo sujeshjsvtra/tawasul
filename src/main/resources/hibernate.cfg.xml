@@ -33,6 +33,7 @@
             <property name="hibernate.search.default.indexBase">target/indexes</property> -->
         <mapping class="com.tawasul.web.model.User"/>
         <mapping class="com.tawasul.web.model.Sector"/>
+        <mapping class="com.tawasul.web.model.Role"/>
 
     </session-factory>
 </hibernate-configuration>
