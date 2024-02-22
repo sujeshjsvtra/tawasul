@@ -44,4 +44,8 @@
         <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
         <param-value>true</param-value>
     </context-param>
+    <listener>
+        <listener-class>com.tawasul.web.util.InitializerListener</listener-class>
+    </listener>
+
 </web-app>
