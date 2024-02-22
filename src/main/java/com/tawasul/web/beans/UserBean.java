@@ -48,14 +48,20 @@ public class UserBean implements Serializable {
 
 	public void createUser() {
 		session.beginTransaction();
+		user.setPassword(getRandomPassword());
+		user.setStatus("A");
+		session.save(user);
+		session.getTransaction().commit();
+		session.close();
+	}
 
+	public void getUsers() {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
+
 		CriteriaQuery<User> criteria = builder.createQuery(User.class);
 		criteria.from(User.class);
 		List<User> users = session.createQuery(criteria).getResultList();
-
 		System.out.println("Size of list is " + users.size());
-		session.close();
 	}
 
 	public void generatePassword() {
