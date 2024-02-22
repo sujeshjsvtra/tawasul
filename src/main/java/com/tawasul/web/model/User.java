@@ -39,7 +39,7 @@ public class User {
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
-	private Date createDate;
+	private Date createdAt;
 
 	private String status;
 }
