@@ -34,6 +34,8 @@
         <mapping class="com.tawasul.web.model.User"/>
         <mapping class="com.tawasul.web.model.Sector"/>
         <mapping class="com.tawasul.web.model.Role"/>
+        <mapping class="com.tawasul.web.model.Consultation"/>
+        <mapping class="com.tawasul.web.model.Survey"/>
 
     </session-factory>
 </hibernate-configuration>
