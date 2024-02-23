@@ -1,22 +1,20 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.*;
 
-//import org.apache.deltaspike.data.api.audit.CreatedOn;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
 @Entity
-public class Consultation {
+@Table(name = "file", schema = "public")
+public class File {
 
 	@Id
 	@GeneratedValue
@@ -24,15 +22,9 @@ public class Consultation {
 
 	private String name;
 
-	private String role;
+	private String url;
 
-	private String image_url;
-
-	@OneToOne
-	private Sector sector;
-
-	@OneToMany
-	private List<Survey> surveys;
+	private String type;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -45,5 +37,4 @@ public class Consultation {
 	private Date updatedAt;
 
 	private String status;
-
 }

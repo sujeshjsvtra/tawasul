@@ -1,6 +1,7 @@
 package com.tawasul.web.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Getter
 @Setter
@@ -31,10 +33,12 @@ public class Survey {
     private String proposal;
 
     @OneToMany
-    private List<String> files;
+    private List<File> files;
 
-    //@CreatedOn
-    private LocalDateTime createdOn;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
 
     private String status;
 }
