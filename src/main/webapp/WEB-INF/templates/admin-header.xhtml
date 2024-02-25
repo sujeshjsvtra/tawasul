@@ -1,0 +1,97 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<script type="javascript">
+			
+		</script>
+<style>
+</style>
+</head>
+<body>
+	<ui:composition>
+		<h:form>
+		<div>
+			<div class="header-container">
+				<div onclick="swichToSearch();" id="searchLeftPan">Search...</div>
+				<div class="admin-header-rightsec" id="searchRightPan">
+
+					<ul class="ul-columns">
+						<li>
+						<h:commandLink action="#{languageBean.changeLocale()}" >
+						<span style="font-size: 16px;"><i
+								class="fa fa-globe" aria-hidden="true"></i> العربية</span>
+						</h:commandLink>		
+						</li>
+						<li><span
+							style="font-size: 20px; margin-right: 10px; margin-left: 10px;"><i
+								class="fa fa-bell" aria-hidden="true"></i><span
+								class="badge badge-success"></span></span></li>
+						<li><p:commandLink id="imageBtn"><span class="avatar"></span> </p:commandLink>
+						  <p:overlayPanel showEffect="fade"   
+								id="imagePanel" for="imageBtn" hideEffect="fade">
+								<div class="profile-sec">
+									<div class="profile-wave">
+										<span>👋</span>
+										<span class="two-step-right">Admin</span>
+									</div>
+									<div class="profile">
+										<span><i class="fas fa-user"></i></span>
+										<span class="two-step-right">Profile</span>
+									</div>
+									<div class="logout">
+										<span> <i class="fas fa-sign-out-alt"></i> </span>
+										<span class="two-step-right">Logout</span>
+									</div>
+								</div>
+							</p:overlayPanel></li>
+					</ul>
+
+
+				</div>
+
+				<div onclick="swichToSearch();" id="searchLeftTextPan"
+					style="display: none;">
+					<p:inputText placeholder="Search..."
+						styleClass="search-header-input no-box-shadow " />
+				</div>
+				<div class="admin-header-rightsec" id="searchRightClosePan"
+					style="display: none;">
+					<span style="cursor: pointer;" onclick="backToHeaderSearch()"><svg
+							xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-x search-close">
+						<line x1="18" y1="6" x2="6" y2="18"></line>
+						<line x1="6" y1="6" x2="18" y2="18"></line></svg> </span>
+				</div>
+
+			</div>
+		</div>
+		
+		</h:form>
+		
+		<div class="layout-px-spacing ">
+			<div class="page-meta ">
+				<nav class="breadcrumb-style-one" aria-label="breadcrumb">
+				<ul class="breadcrumb ui-columns">
+					<li class="breadcrumb-item"><a href="#">#{pageRedirect.defaultLabel}</a></li>
+					<li class="breadcrumb-item active" aria-current="page">#{pageRedirect.activeLabel}
+					</li>
+				</ul>
+				</nav>
+			</div>
+
+		</div>
+
+		<br />
+
+
+	</ui:composition>
+</body>
+</html>

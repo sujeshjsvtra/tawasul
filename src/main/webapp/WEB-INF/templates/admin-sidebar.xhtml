@@ -1,0 +1,94 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<style>
+/* Basic styles for the side menu
+
+ */
+</style>
+</head>
+<body>
+	<ui:composition>
+		<h:form>
+			<div class="sidebar">
+				<div class="logo-row">
+					  <h:graphicImage library="images" name="icon_head.png" style="width:30px;height:30px;"  />
+					  <h:graphicImage library="images" name="logo.png" /> 
+				</div>
+				<h:commandLink
+					styleClass="menu-item  button-icon 
+				#{pageRedirect.activeMenu eq  'admin-dashboard' ? 'active-menu-item' : 'default-menu-item'}"
+					onclick="remoteCommand([{name: 'menu', value: 'admin-dashboard'}]);return false;"
+					immediate="true">
+					<span style="decoration: none;"><i class="fas fa-home"></i>
+						Admin Dashboard</span>
+				</h:commandLink>
+				<!-- Start Sectors -->
+				<h:commandLink
+					styleClass="menu-item  button-icon  #{pageRedirect.activeMenu eq  'sector' ? 'active-menu-item' : 'default-menu-item'}"
+					onclick="return false;">
+					<div style="width:100%;">  <span style="decoration: none;">	<i class="fas fa-handshake"></i>Sectors</span> 	</div>
+					<div><span><i class="fas fa-chevron-right"></i></span></div>
+				</h:commandLink>
+				<div class="sub-menu">
+					<ul class="ui-sidemenu">
+						<li><h:commandLink
+								onclick="remoteCommand([{name: 'menu', value: 'view-sector'}]);return false;"> View Sectors</h:commandLink></li>
+						<li><h:commandLink
+								onclick="remoteCommand([{name: 'menu', value: 'add-sector'}]);return false;"> Add Sectors</h:commandLink></li>
+					</ul>
+				</div>
+				<!-- End Sectors -->
+				<!-- Start Consultations -->
+					<h:commandLink
+					styleClass="menu-item  button-icon  #{pageRedirect.activeMenu eq  'consultations' ? 'active-menu-item' : 'default-menu-item'}"
+					onclick="return false;">
+					<div style="width:100%;">  <span style="decoration: none;">	<i class="fas fa-thumbs-up"></i>Consultations</span> 	</div>
+					<div><span><i class="fas fa-chevron-right"></i></span></div>
+				</h:commandLink>
+				<div class="sub-menu">
+					<ul class="ui-sidemenu">
+						<li><h:commandLink
+								onclick="remoteCommand([{name: 'menu', value: 'view-consultations'}]);return false;"> View Consultations</h:commandLink></li>
+						<li><h:commandLink
+								onclick="remoteCommand([{name: 'menu', value: 'add-consultations'}]);return false;"> Add Consultations</h:commandLink></li>
+					</ul>
+				</div>
+				<!--  End Consultations  -->
+				
+				 <h:commandLink
+					styleClass="menu-item  button-icon 
+				#{pageRedirect.activeMenu eq  'initiatives' ? 'active-menu-item' : 'default-menu-item'}"
+					onclick="remoteCommand([{name: 'menu', value: 'initiatives'}]);return false;"
+					immediate="true">
+					<span style="decoration: none;"><i class="fas fa-lightbulb" aria-hidden="true"></i>
+						Initiatives</span>
+				</h:commandLink>
+				
+			</div>
+			<p:remoteCommand name="remoteCommand"
+				action="#{pageRedirect.redirectFromRemoteCommand}" />
+		</h:form>
+		<script>
+    // JavaScript to toggle submenus
+    const subMenus = document.querySelectorAll('.sub-menu');
+    document.querySelectorAll('.menu-item').forEach(menuItem => {
+        menuItem.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isOpen = this.nextElementSibling.style.display === 'block';
+            subMenus.forEach(menu => menu.style.display = 'none');
+            this.nextElementSibling.style.display = isOpen ? 'none' : 'block';
+        });
+    });
+    
+    
+</script>
+	</ui:composition>
+</body>
+</html>

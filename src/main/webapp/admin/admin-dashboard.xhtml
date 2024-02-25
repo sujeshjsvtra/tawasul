@@ -10,21 +10,27 @@
 <h:body>
 
 	<ui:composition template="/WEB-INF/templates/admin-template.xhtml">
-		 
-        <ui:define name="top">
-            <!-- Top Section: Common Header -->
-            <div id="header" style="height: 200px;">
-                <!-- Your common header content goes here -->
-                <h1>Common Header</h1>
-            </div>
-        </ui:define>
-         <ui:define name="content">
-            <!-- Content Area -->
-            <div id="main-content">
-                <!-- Your dynamic content goes here -->
-                <h2>Main Content</h2>
-            </div>
-        </ui:define>
+
+
+		<ui:define name="content">
+			<p:dataTable styleClass="custom-datatable" var="car" value="#{adminDashboardView.cars}">
+				<p:column headerText="Id">
+					<h:outputText value="#{car.id}" />
+				</p:column>
+
+				<p:column headerText="Year">
+					<h:outputText value="#{car.year}" />
+				</p:column>
+
+				<p:column headerText="Brand">
+					<h:outputText value="#{car.brand}" />
+				</p:column>
+
+				<p:column headerText="Color">
+					<h:outputText value="#{car.color}" />
+				</p:column>
+			</p:dataTable>
+		</ui:define>
 	</ui:composition>
 </h:body>
 

@@ -6,8 +6,6 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.PrimeFaces;
-
 import com.tawasul.web.resource.LoginModel;
 import com.tawasul.web.util.SystemConstants;
 
@@ -20,6 +18,8 @@ import javax.annotation.PostConstruct;
 public class LoginManagedBean {
 
 	private LoginModel loginModel;
+	FacesMessage message = null;
+	boolean loggedIn = false;
 
 	@PostConstruct
 	public void init() {
@@ -27,8 +27,6 @@ public class LoginManagedBean {
 	}
 
 	public void login() {
-		FacesMessage message = null;
-		boolean loggedIn = false;
 
 		if (getLoginModel().getUserName() != null && getLoginModel().getUserName().equals("admin")
 				&& getLoginModel().getPassword() != null && getLoginModel().getPassword().equals("admin")) {
@@ -42,7 +40,6 @@ public class LoginManagedBean {
 		try {
 			redirectToPage(SystemConstants.ADMIN_DASHBOARD_SCREEN);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
