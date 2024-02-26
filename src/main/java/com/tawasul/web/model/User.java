@@ -1,23 +1,19 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
-//import org.apache.deltaspike.data.api.audit.CreatedOn;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user", schema = "public")
 public class User {
 
 	@Id

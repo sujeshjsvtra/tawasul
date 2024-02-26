@@ -13,7 +13,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "file", schema = "public")
 public class File {
 
 	@Id

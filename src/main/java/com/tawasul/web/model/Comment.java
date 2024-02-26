@@ -1,18 +1,14 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.*;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-//import org.apache.deltaspike.data.api.audit.CreatedOn;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
