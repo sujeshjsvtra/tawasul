@@ -25,7 +25,7 @@ public class PageRedirect {
 	}
 	
 	public void redirectToViewSector() {
-		this.activeMenu = SystemConstants.SECTOR_MENU;
+		this.activeMenu = SystemConstants.VIEW_SECTOR_MENU;
 		redirectToPage(SystemConstants.VIEW_SECTOR_SCREEN+facesRedirect);
 	}
 
