@@ -1,0 +1,242 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<body>
+	<ui:composition>
+
+		<div id="content" class="main-content">
+			<div class="layout-px-spacing">
+
+				<div class="middle-content container-xxl p-0">
+
+					<div class="row layout-top-spacing">
+						<div class="col-lg-12  position-relative mb-2">
+							<select class="select_da form-control">
+								<option value="" disabled="" selected="">Show by</option>
+								<option value="Day">Day</option>
+								<option value="Week">Week</option>
+								<option value="Month">Month</option>
+								<option value="Year">Year</option>
+							</select>
+						</div>
+						<div
+							class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
+							<div class="widget widget-card-four">
+								<div class="widget-content">
+									<div class="w-header">
+										<div class="w-info">
+											<h6 class="value">Total Users</h6>
+										</div>
+
+									</div>
+
+									<div class="w-content">
+
+										<div class="w-info">
+											<p class="value">
+												15,141
+												<svg xmlns="http://www.w3.org/2000/svg" width="24"
+													height="24" viewBox="0 0 24 24" fill="none"
+													stroke="currentColor" stroke-width="2"
+													stroke-linecap="round" stroke-linejoin="round"
+													class="feather feather-trending-up">
+												<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+												<polyline points="17 6 23 6 23 12"></polyline></svg>
+											</p>
+											<span> per Day</span>
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+						<div
+							class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
+							<div class="widget widget-card-four">
+								<div class="widget-content">
+									<div class="w-header">
+										<div class="w-info">
+											<h6 class="value">Total Participants</h6>
+										</div>
+
+									</div>
+
+									<div class="w-content">
+
+										<div class="w-info">
+											<p class="value">
+												10,244
+												<svg xmlns="http://www.w3.org/2000/svg" width="24"
+													height="24" viewBox="0 0 24 24" fill="none"
+													stroke="currentColor" stroke-width="2"
+													stroke-linecap="round" stroke-linejoin="round"
+													class="feather feather-trending-up">
+												<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+												<polyline points="17 6 23 6 23 12"></polyline></svg>
+											</p>
+											<span> per Day</span>
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+						<div
+							class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
+							<div class="widget widget-card-four">
+								<div class="widget-content">
+									<div class="w-header">
+										<div class="w-info">
+											<h6 class="value">Total Initiatives</h6>
+										</div>
+
+									</div>
+
+									<div class="w-content">
+
+										<div class="w-info">
+											<p class="value">
+												10,542
+												<svg xmlns="http://www.w3.org/2000/svg" width="24"
+													height="24" viewBox="0 0 24 24" fill="none"
+													stroke="currentColor" stroke-width="2"
+													stroke-linecap="round" stroke-linejoin="round"
+													class="feather feather-trending-up">
+												<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+												<polyline points="17 6 23 6 23 12"></polyline></svg>
+											</p>
+											<span> per Day</span>
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+						<div
+							class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing pb-2">
+							<div id="chartColumnStacked" class="col-xl-12 layout-spacing">
+								<div class="statbox widget box box-shadow">
+									<div class="widget-header">
+										<div class="row">
+											<div class="col-xl-12 col-md-12 col-sm-12 col-12">
+												<h4>Gender & Age per month</h4>
+											</div>
+										</div>
+									</div>
+									<div class="widget-content widget-content-area">
+										<div id="s-col-stacked" class=""></div>
+
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div
+							class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing pb-2">
+							<div id="chartColumnStacked" class="col-xl-12 layout-spacing">
+								<div class="statbox widget box box-shadow">
+									<div class="widget-header">
+										<div class="row">
+											<div class="col-xl-12 col-md-12 col-sm-12 col-12">
+												<h4>Gender & General Age</h4>
+											</div>
+										</div>
+									</div>
+
+									<div class="widget-content widget-content-area">
+										<br>
+											<div id="donut-chart" class="" style="padding-bottom: 8px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div
+							class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing ">
+							<div class="widget widget-card-four">
+								<div class="widget-content">
+									<div class="w-header">
+										<div class="w-info">
+											<h6 class="value">Total Participants</h6>
+										</div>
+
+									</div>
+
+									<div class="w-content">
+										<div class="table_graph01">
+											<table class="table_graph">
+												<tbody>
+													<tr>
+														<th>S.No</th>
+														<th>Consultations Topic</th>
+														<th>Number of Participants</th>
+
+														<th>Male</th>
+														<th>Female</th>
+													</tr>
+													<tr>
+														<td>01</td>
+														<td>Household Strategies for Sustainable Living</td>
+														<td>190</td>
+														<td>120</td>
+														<td>70</td>
+													</tr>
+													<tr>
+														<td>02</td>
+														<td>Strategies for Combatting Obesity in Bahrain</td>
+														<td>100</td>
+														<td>60</td>
+														<td>40</td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+
+				</div>
+
+			</div>
+			<!--  BEGIN FOOTER  -->
+			<div class="footer-wrapper">
+				<div class="footer-section f-section-1">
+					<p class="">© 2023 Information & eGovernment Authority, Kingdom
+						of Bahrain.</p>
+				</div>
+				<div class="footer-section f-section-2"></div>
+			</div>
+			<!--  END FOOTER  -->
+		</div>
+
+
+
+
+	</ui:composition>
+</body>
+</html>

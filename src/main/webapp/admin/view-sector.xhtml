@@ -1,0 +1,52 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+
+	<ui:composition template="/WEB-INF/templates/admin-template.xhtml">
+
+
+		<ui:define name="content">
+			<!-- Content Area -->
+			<h:form>
+			<div class="row ">
+				 <div class="col-md-6"> <h3>View Sector </h3></div>
+				  <div class="col-md-6 pull-right"> 
+				  		<h:commandLink><p:button value="Add Sector" /></h:commandLink>
+						<p:inputText />
+						<p:button   icon="pi pi-search" style="margin-right:20px;" styleClass="search-button" title="Search">
+						    <f:param name="productId" value="30" />
+						</p:button>
+				 </div>
+
+			</div>
+			</h:form>
+			<p:dataTable styleClass="custom-datatable" var="car"
+				value="#{adminDashboardView.cars}">
+				<p:column headerText="Id">
+					<h:outputText value="#{car.id}" />
+				</p:column>
+
+				<p:column headerText="Year">
+					<h:outputText value="#{car.year}" />
+				</p:column>
+
+				<p:column headerText="Brand">
+					<h:outputText value="#{car.brand}" />
+				</p:column>
+
+				<p:column headerText="Color">
+					<h:outputText value="#{car.color}" />
+				</p:column>
+			</p:dataTable>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

@@ -1,39 +1,46 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:body>
 
-    <ui:composition template="/WEB-INF/templates/common.xhtml">
+	<ui:composition template="/WEB-INF/templates/common.xhtml">
+		<ui:define name="content">
+			<div class="fluid topbar">
+				<div class="date_time">
+					<span> Welcome to</span> <span
+						style="color: #CE3231; font-weight: bold;"> Build Bahrain</span>
 
-        <ui:define name="content">
+				</div>
 
-            <div class="loginMainPanel">
-                <h:form>
-                    <p:panelGrid columns="2" cellpadding="5">
-                        <h:outputLabel for="username" value="Username:"/>
-                        <p:inputText id="username" required="true" label="username"
-                                     value="#{loginManagedBean.loginModel.userName}"/>
+				<div class="eKeyLogin">
+				  <h:form>
+					<h:graphicImage library="images" name="ekeyLogoForHeader.png" />
+					
+					<p:inputText placeholder="ID Number" title="ID Number" autocomplete="off"
+					value="#{loginManagedBean.loginModel.userName}" />
+					&nbsp;
+					<p:password placeholder="Password"  title="Password"
+					 value="#{loginManagedBean.loginModel.password}" />  
+					 
+				    <h:commandButton  value="Login" action="#{loginManagedBean.login()}" />		
+					 
+					<div class="eKeyButtons">
+						<a href="user-registration.html">Register</a> | <a href="#">Forgot
+							Password</a>
+					</div>
+					</h:form>
+				</div>
 
-                        <h:outputLabel for="password" value="Password:"/>
-                        <p:password id="password" required="true" label="password"
-                                    value="#{loginManagedBean.loginModel.password}"/>
 
-                        <p:commandButton value="Login" update="growl"
-                                         action="#{loginManagedBean.login}"/>
-
-                    </p:panelGrid>
-                </h:form>
-            </div>
-        </ui:define>
-
-
-    </ui:composition>
-
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
+
 </html>

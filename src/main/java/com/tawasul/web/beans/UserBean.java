@@ -75,6 +75,6 @@ public class UserBean implements Serializable {
 	}
 
 	public void checkUser() {
+		System.out.println("Check if user exists" + user.getEmail());
 	}
-
 }

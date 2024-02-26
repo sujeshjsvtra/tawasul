@@ -5,7 +5,7 @@ CREATE TABLE User
     email VARCHAR(100) NOT NULL,
     role  VARCHAR(50),
     created_at   TIMESTAMP,
-    status VARCHAR(2),
+    status VARCHAR(2)
 
 );
 
@@ -27,5 +27,5 @@ CREATE TABLE Consultation
     role VARCHAR(50) NOT NULL,
     sector_id VARCHAR(50) NOT NULL,
     created_at   TIMESTAMP,
-    status VARCHAR(2),
+    status VARCHAR(2)
 );

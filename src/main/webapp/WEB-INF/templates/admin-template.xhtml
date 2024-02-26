@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+     >
+<h:head>
+    <title>JSF Template</title>
+    <!-- Add your CSS and JavaScript includes here -->
+    <style>
+        /* Add your CSS styles here   dir="#{languageBean.localeCode eq 'ar' ? 'rtl' : 'ltr'}" */
+      
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+</h:head>
+<h:body>
+
+ <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+  <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+ <h:outputStylesheet library="css" name="admin-custome.css"/>
+
+    <div id="container">
+        <!-- Left Section: Menu -->
+        <div id="menu">
+            <ui:insert name="left">
+            	<ui:include src="/WEB-INF/templates/admin-sidebar.xhtml"></ui:include>
+            </ui:insert>
+        </div>
+        <!-- Right Section: Content -->
+        <div id="content">
+            <!-- Top Section: Common Header -->
+            <div  >
+                <ui:insert name="top">
+                	<ui:include src="/WEB-INF/templates/admin-header.xhtml"></ui:include>
+                </ui:insert>
+                <!-- Menu Toggle Icon -->
+                <div id="menu-toggle">&#9776;</div>
+            </div>
+            <!-- Content Area -->
+            <div id="main-content">
+                <ui:insert name="content"></ui:insert>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript to handle menu toggle -->
+    <script language="javascript">
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'none') {
+                menu.style.display = 'block';
+            } else {
+                menu.style.display = 'none';
+            }
+        });
+        
+        // Show menu toggle icon only when menu is hidden
+        window.addEventListener('resize', function() {
+            var menu = document.getElementById('menu');
+            var menuToggle = document.getElementById('menu-toggle');
+            if (window.innerWidth > 768  ) {
+            	 menuToggle.style.display = 'none';
+                
+            } else {
+            	menuToggle.style.display = 'block';
+            }
+        });
+        
+    	function swichToSearch(){
+			document.getElementById("searchLeftPan").style.display="none";
+			document.getElementById("searchRightPan").style.display="none";
+			document.getElementById("searchLeftTextPan").style.display="block";
+			document.getElementById("searchRightClosePan").style.display="block";
+		}
+    	
+    	function backToHeaderSearch(){
+    		document.getElementById("searchLeftPan").style.display="block";
+			document.getElementById("searchRightPan").style.display="block";
+			document.getElementById("searchLeftTextPan").style.display="none";
+			document.getElementById("searchRightClosePan").style.display="none";
+    	}
+    </script>
+</h:body>
+</html>
