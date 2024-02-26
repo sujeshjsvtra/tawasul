@@ -44,6 +44,7 @@ public class UserBean implements Serializable {
 		user = new User();
 		setRandomPassword("");
 		session = hibernateUtil.getSessionFactory().openSession();
+		getUsers();
 	}
 
 	public void createUser() {
@@ -60,8 +61,10 @@ public class UserBean implements Serializable {
 
 		CriteriaQuery<User> criteria = builder.createQuery(User.class);
 		criteria.from(User.class);
+
 		List<User> users = session.createQuery(criteria).getResultList();
 		System.out.println("Size of list is " + users.size());
+		System.out.println("User 1 " + users.get(0).getName());
 	}
 
 	public void generatePassword() {
