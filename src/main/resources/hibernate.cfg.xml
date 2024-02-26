@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
+        <property name="connection.url">jdbc:db2://84.255.173.12:2221/EPARTDB</property>
+        <property name="connection.username">tawasul</property>
+        <property name="connection.password">OP_sus_@123_24</property>
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="hibernate.connection.pool_size">10</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.DB2Dialect</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCachingRegionFactory</property>
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <!-- <property name="hibernate.search.default.directory_provider">filesystem</property>
+            <property name="hibernate.search.default.indexBase">target/indexes</property> -->
+        <mapping class="com.tawasul.web.model.User"/>
+        <mapping class="com.tawasul.web.model.Sector"/>
+        <mapping class="com.tawasul.web.model.Role"/>
+        <mapping class="com.tawasul.web.model.Consultation"/>
+        <mapping class="com.tawasul.web.model.Survey"/>
+        <mapping class="com.tawasul.web.model.File"/>
+
+    </session-factory>
+</hibernate-configuration>
+

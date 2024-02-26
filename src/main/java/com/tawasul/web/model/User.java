@@ -1,14 +1,12 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
-//import org.apache.deltaspike.data.api.audit.CreatedOn;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,22 +16,32 @@ import lombok.Setter;
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    private String name;
+	private String name;
 
-    private String email;
+	private String email;
 
-    private String password;
+	private String password;
 
-    private String role;
+	private String role;
 
-    @OneToMany
-    private List<Sector> sectorAccess;
+	@OneToMany
+	@JoinTable(name = "user_sector", joinColumns = { @JoinColumn(name = "sector_access_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "") })
+	private List<Sector> sectorAccess;
 
-    private LocalDateTime createdAt;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at")
+	private Date createdAt;
 
-    private String status;
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at")
+	private Date updatedAt;
+
+	private String status;
 }

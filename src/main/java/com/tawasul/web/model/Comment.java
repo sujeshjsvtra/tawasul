@@ -1,12 +1,11 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.*;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-//import org.apache.deltaspike.data.api.audit.CreatedOn;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,9 +28,15 @@ public class Comment {
 
     private Integer dislikeCount;
 
-    //@CreatedOn
-    private LocalDateTime createdOn;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
 
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     private String status;
 
