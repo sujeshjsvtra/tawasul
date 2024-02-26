@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import com.tawasul.web.util.SystemConstants;
+import org.apache.commons.lang3.StringUtils;
 
 @ManagedBean(name = "languageBean")
 @SessionScoped
@@ -22,8 +23,8 @@ public class LanguageBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println(getLocaleCode() + " ---");
-		if (getLocaleCode().isEmpty())
+		System.out.println("Locale on load: "+ getLocaleCode() + " ---");
+		if (StringUtils.isBlank(getLocaleCode()))
 			setLocaleCode(SystemConstants.LOCALE_ENGLISH);
 	}
 
@@ -63,8 +64,7 @@ public class LanguageBean implements Serializable {
 	}
 
 	public void changeLocale() {
-		System.out.println(getLocaleCode());
-		System.out.println(getLocaleCode().equals(SystemConstants.LOCALE_ENGLISH));
+		System.out.println("Current Locale: " + getLocaleCode());
 		if (getLocaleCode().equals(SystemConstants.LOCALE_ENGLISH)) {
 			setLocaleCode(SystemConstants.LOCALE_ARABIC);
 			FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("ar"));
@@ -74,7 +74,7 @@ public class LanguageBean implements Serializable {
 			FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("en"));
 		}
 
-		System.out.println(getLocaleCode());
+		System.out.println("Changed Locale: "+ getLocaleCode());
 	}
 
 }
