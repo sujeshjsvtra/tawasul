@@ -33,4 +33,23 @@
 		<param-name>javax.faces.SUPPORTED_LOCALES</param-name>
 		<param-value>en ar</param-value>
 	</context-param>
+	<context-param>
+		<param-name>jakarta.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<context-param>
+		<param-name>facelets.DEVELOPMENT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>facelets.FACELETS_REFRESH_PERIOD</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.tawasul.web.util.InitializerListener</listener-class>
+	</listener>
 </web-app>
