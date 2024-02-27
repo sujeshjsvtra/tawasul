@@ -35,7 +35,7 @@ public class LoginManagedBean {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", getLoginModel().getUserName());
 		} else {
 			loggedIn = false;
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
+			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
 		}
 
 		try {
