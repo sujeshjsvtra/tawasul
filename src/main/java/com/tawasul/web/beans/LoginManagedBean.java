@@ -1,18 +1,16 @@
-package com.tawasul.web.resource;
+package com.tawasul.web.beans;
 
+import java.io.IOException;
+
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.PrimeFaces;
-
+import com.tawasul.web.resource.LoginModel;
 import com.tawasul.web.util.SystemConstants;
-
-import java.io.IOException;
-
-import javax.annotation.PostConstruct;
 
 @ManagedBean(name = "loginManagedBean")
 @RequestScoped
