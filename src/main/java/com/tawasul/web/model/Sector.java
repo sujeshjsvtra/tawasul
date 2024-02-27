@@ -1,7 +1,9 @@
 package com.tawasul.web.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
+import com.ibm.db2.cmx.annotation.Required;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,6 +22,7 @@ public class Sector {
 	@GeneratedValue
 	private Long id;
 
+	@NotNull
 	private String name;
 
 	private String arabicName;

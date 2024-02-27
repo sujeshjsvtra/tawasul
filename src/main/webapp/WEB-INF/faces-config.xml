@@ -14,4 +14,14 @@
 		<var>msg</var>
 	   </resource-bundle>
      </application>
+	<managed-bean>
+		<managed-bean-name>sectorBean</managed-bean-name>
+		<managed-bean-class>com.tawasul.web.beans.SectorBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sectorService</property-name>
+			<property-class>com.tawasul.web.service.SectorService</property-class>
+			<value>#{sectorService}</value>
+		</managed-property>
+	</managed-bean>
 </faces-config>
