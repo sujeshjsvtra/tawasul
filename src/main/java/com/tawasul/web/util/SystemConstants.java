@@ -9,8 +9,8 @@ public class SystemConstants {
 	public static final String LOGIN_SCREEN="login.xhtml";
 	public static final String VIEW_SECTOR_SCREEN="view-sector.xhtml";
 	public static final String ADD_SECTOR_SCREEN="add-sector.xhtml";
-	public static final String VIEW_CONSULTATIONS_SCREEN="view-consultations.xhtml";
-	public static final String ADD_CONSULTATIONS_SCREEN="add-consultations.xhtml";
+	public static final String VIEW_CONSULTATIONS_SCREEN="view-consultation.xhtml";
+	public static final String ADD_CONSULTATIONS_SCREEN="add-consultation.xhtml";
 	public static final String VIEW_INITIATIVES_SCREEN="initiatives.xhtml";
 	
 	public static final String DASHBOARD_MENU="admin-dashboard";

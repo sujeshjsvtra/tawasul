@@ -1,17 +1,17 @@
 package com.tawasul.web.service;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
-import com.tawasul.web.model.User;
+import com.tawasul.web.model.Consultation;
 import org.hibernate.Session;
 
 import com.tawasul.web.model.Sector;
@@ -28,11 +28,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SectorService implements Serializable {
+public class ConsultationService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Sector> sectors;
+	private List<Consultation> consultations;
 
 	@Inject
 	private Session session;
@@ -42,31 +42,37 @@ public class SectorService implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		setSectors(populateSectors());
+		setConsultations(populateConsultations());
 	}
 
-	public List<Sector> populateSectors() {
+	public List<Consultation> populateConsultations() {
 		session = hibernateUtil.getSessionFactory().openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 
-		CriteriaQuery<Sector> criteria = builder.createQuery(Sector.class);
-		criteria.from(Sector.class);
-		List<Sector> sectors = session.createQuery(criteria).getResultList();
+		CriteriaQuery<Consultation> criteria = builder.createQuery(Consultation.class);
+		criteria.from(Consultation.class);
+		List<Consultation> consultations = session.createQuery(criteria).getResultList();
 
-		setSectors(sectors);
+		setConsultations(consultations);
 		session.close();
-		return sectors;
+		return consultations;
 	}
 
-	public void saveSector(String sectorName, String sectorNameArabic, String status) {
+	public void saveConsultation(String name, String topic, String description, LocalDate startDate, LocalDate endDate, Sector sector,
+								 String status) {
 		session = hibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Sector sector = new Sector();
-		sector.setName(sectorName);
-		sector.setArabicName(sectorNameArabic);
-		sector.setStatus(status);
 
-		session.save(sector);
+		session.beginTransaction();
+		Consultation consultation = new Consultation();
+		consultation.setName(name);
+		consultation.setTopic(topic);
+		consultation.setDescription(description);
+		consultation.setStatus(status);
+		consultation.setStartDate(startDate);
+		consultation.setEndDate(endDate);
+		consultation.setSector(sector);
+
+		session.save(consultation);
 		session.getTransaction().commit();
 		session.close();
 	}

@@ -4,8 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import com.ibm.db2.cmx.annotation.Required;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,6 +18,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
+@ToString
 public class Sector {
 
 	@Id
@@ -23,8 +27,10 @@ public class Sector {
 	private Long id;
 
 	@NotNull
+	@Column(unique = true)
 	private String name;
 
+	@Column(unique = true)
 	private String arabicName;
 
 	@CreationTimestamp

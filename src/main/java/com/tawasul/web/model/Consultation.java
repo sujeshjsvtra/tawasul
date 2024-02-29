@@ -1,17 +1,16 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
-//import org.apache.deltaspike.data.api.audit.CreatedOn;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -22,11 +21,21 @@ public class Consultation {
 	@GeneratedValue
 	private Long id;
 
+	@Column(unique = true)
 	private String name;
+
+	private String description;
+
+	private String topic;
+
+	private LocalDate startDate;
+
+	private LocalDate endDate;
 
 	private String role;
 
-	private String image_url;
+	@OneToOne
+	private File image;
 
 	@OneToOne
 	private Sector sector;
@@ -45,5 +54,4 @@ public class Consultation {
 	private Date updatedAt;
 
 	private String status;
-
 }

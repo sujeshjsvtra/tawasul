@@ -51,7 +51,6 @@ public class SectorBean implements Serializable {
 
 	@PreDestroy
 	public void preDestory() {
-		System.out.println("preDestory");
 	}
 
 	public void saveSector() {
