@@ -24,4 +24,14 @@
 			<value>#{sectorService}</value>
 		</managed-property>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>consultationBean</managed-bean-name>
+		<managed-bean-class>com.tawasul.web.beans.ConsultationBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>consultationService</property-name>
+			<property-class>com.tawasul.web.service.ConsultationService</property-class>
+			<value>#{sectorService}</value>
+		</managed-property>
+	</managed-bean>
 </faces-config>
