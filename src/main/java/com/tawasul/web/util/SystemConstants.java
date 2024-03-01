@@ -11,6 +11,7 @@ public class SystemConstants {
 	public static final String ADD_SECTOR_SCREEN="add-sector.xhtml";
 	public static final String VIEW_CONSULTATIONS_SCREEN="view-consultation.xhtml";
 	public static final String ADD_CONSULTATIONS_SCREEN="add-consultation.xhtml";
+	public static final String EDIT_CONSULTATIONS_SCREEN="edit-consultation.xhtml";
 	public static final String VIEW_INITIATIVES_SCREEN="initiatives.xhtml";
 	
 	public static final String DASHBOARD_MENU="admin-dashboard";
@@ -23,7 +24,8 @@ public class SystemConstants {
 	public static final String LABEL_DASHBOARD="Dashboard";
 	public static final String LABEL_VIEW_SECTOR="View Sector";
 	public static final String LABEL_ADD_SECTOR="Add Sector";
-	public static final String LABEL_ADD_CONSULTATIONS="Add Consultations";
+	public static final String LABEL_ADD_CONSULTATIONS="Add Consultation";
+	public static final String LABEL_EDIT_CONSULTATIONS="Edit Consultation";
 	public static final String LABEL_VIEW_CONSULTATIONS="View Consultations";
 	public static final String LABEL_VIEW_INITIATIVES="Initiatives";
 	

@@ -58,21 +58,47 @@ public class ConsultationService implements Serializable {
 		return consultations;
 	}
 
-	public void saveConsultation(String name, String topic, String description, LocalDate startDate, LocalDate endDate, Sector sector,
+	public Consultation fetchConsultationById(Long id) {
+		session = hibernateUtil.getSessionFactory().openSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+
+		Consultation consultation = session.get( Consultation.class, id );
+
+		session.close();
+		return consultation;
+	}
+
+
+
+	public void saveOrUpdateConsultation(Consultation existingConsultation, String name, String topic, String description, LocalDate startDate, LocalDate endDate, Sector sector,
 								 String status) {
 		session = hibernateUtil.getSessionFactory().openSession();
 
 		session.beginTransaction();
-		Consultation consultation = new Consultation();
-		consultation.setName(name);
-		consultation.setTopic(topic);
-		consultation.setDescription(description);
-		consultation.setStatus(status);
-		consultation.setStartDate(startDate);
-		consultation.setEndDate(endDate);
-		consultation.setSector(sector);
+		
+		if (existingConsultation == null) {
+			Consultation consultation = new Consultation();
+			consultation.setName(name);
+			consultation.setTopic(topic);
+			consultation.setDescription(description);
+			consultation.setStatus(status);
+			consultation.setStartDate(startDate);
+			consultation.setEndDate(endDate);
+			consultation.setSector(sector);
 
-		session.save(consultation);
+			session.saveOrUpdate(consultation);
+		} else {
+			System.out.println("Updating existing consultation: "+ existingConsultation);
+			session.saveOrUpdate(existingConsultation);
+		}
+
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	public void deleteConsultation(Consultation consultation) {
+		session = hibernateUtil.getSessionFactory().openSession();
+		session.delete(consultation);
 		session.getTransaction().commit();
 		session.close();
 	}

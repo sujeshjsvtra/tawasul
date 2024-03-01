@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,6 +17,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@ToString
+@EqualsAndHashCode
 public class Consultation {
 
 	@Id
@@ -40,8 +44,8 @@ public class Consultation {
 	@OneToOne
 	private Sector sector;
 
-	@OneToMany
-	private List<Survey> surveys;
+/*	@OneToMany
+	private List<Survey> survey;*/
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
