@@ -1,5 +1,6 @@
 package com.tawasul.web.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,10 +29,13 @@ public class User {
 
 	private String role;
 
-	@OneToMany
-	@JoinTable(name = "user_sector", joinColumns = { @JoinColumn(name = "sector_access_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "") })
-	private List<Sector> sectorAccess;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinTable(
+			name = "user_sector",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "sector_id")
+	)
+	private List<Sector> sectorAccess = new ArrayList<>();
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

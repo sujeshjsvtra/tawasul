@@ -30,7 +30,7 @@ public class Sector {
 	@Column(unique = true)
 	private String name;
 
-	@Column(unique = true)
+	@Column(unique = true, name = "arabic_name")
 	private String arabicName;
 
 	@CreationTimestamp
@@ -42,6 +42,10 @@ public class Sector {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_at")
 	private Date updatedAt;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	private String status;
 }

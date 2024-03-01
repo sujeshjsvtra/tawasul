@@ -1,6 +1,7 @@
 package com.tawasul.web.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,8 +45,13 @@ public class Consultation {
 	@OneToOne
 	private Sector sector;
 
-/*	@OneToMany
-	private List<Survey> survey;*/
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinTable(
+			name = "consultation_survey",
+			joinColumns = @JoinColumn(name = "consultation_id"),
+			inverseJoinColumns = @JoinColumn(name = "survey_id")
+	)
+	private List<Survey> survey = new ArrayList<>();
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

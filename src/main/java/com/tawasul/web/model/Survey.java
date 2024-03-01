@@ -1,44 +1,70 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
-//import org.apache.deltaspike.data.api.audit.CreatedOn;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 @Getter
 @Setter
 @Entity
 public class Survey {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String email;
-    private String gender;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    private String ageCategory;
-    @OneToOne
-    private Sector location;
+	@Column(name = "first_name")
+	private String firstName;
 
-    @OneToOne
-    private Sector employmentType;
+	@Column(name = "last_name")
+	private String lastName;
 
-    private String proposal;
+	@Column(name = "reference_number")
+	private String referenceNumber;
 
-    @OneToMany
-    private List<File> files;
+	@Column(name = "submission_date")
+	private LocalDate submissionDate;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
-    private Date createdAt;
+	private String email;
 
-    private String status;
+	private String gender;
+
+	@Column(name = "age_group")
+	private String ageGroup;
+
+	private String location;
+
+	@Column(name = "employment_type")
+	private String employmentType;
+
+	private String proposal;
+
+	private Integer rating;
+
+	@ManyToOne
+	@JoinColumn(name = "consultation_id")
+	private Consultation consultation;
+
+	@OneToMany
+	private List<File> files;
+
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at")
+	private Date createdAt;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at")
+	private Date updatedAt;
+
+	private String status;
 }
