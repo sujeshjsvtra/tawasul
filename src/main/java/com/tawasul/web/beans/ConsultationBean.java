@@ -147,13 +147,11 @@ public class ConsultationBean implements Serializable {
 		return consultation;
 	}
 
-
 	@Transactional
 	public void editConsultation(Consultation consultation) {
  			System.out.println("Edit Consultation: "  + consultation);
 		pageRedirect.redirectToPage(SystemConstants.EDIT_CONSULTATIONS_SCREEN + "?id=" + consultation.getId());
 	}
-
 
 	public void deleteConsultation(Consultation consultation) {
 		consultationService.deleteConsultation(consultation);
