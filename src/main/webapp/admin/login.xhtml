@@ -8,19 +8,21 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-
+<!-- <p:growl id="growl" sticky="true" showDetail="true" life="3000" /> -->
 
 </h:head>
 <h:body>
-	 
+
 	<h:outputStylesheet library="css" name="light/loader.css" />
 	<h:outputStylesheet library="css" name="dark/loader.css" />
 	<h:outputStylesheet library="css" name="admin.css" />
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+	
 
 	<h:form>
-
+<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+<div id="blockUI"></div>
+<div id="loader"></div>
 		<div class="auth-container d-flex">
 
 			<div class="container mx-auto align-self-center">
@@ -42,33 +44,42 @@
 										<p>Enter your email and password to login</p>
 
 									</div>
+
+
+									<div class="col-md-12 mb-3 ">
+
+										 
+									</div>
 									<div class="col-md-12">
 										<div class="mb-3">
-											<label class="form-label">Email</label> <input type="email"
-												class="form-control"> </input>
+											<label class="form-label">Email</label>
+											<p:inputText class="form-control"  
+												value="#{loginManagedBean.loginModel.userName}"
+												autocomplete="off" />
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="mb-4">
-											<label class="form-label">Password</label> <input type="text"
-												class="form-control"> </input>
+											<label class="form-label">Password</label>
+											<p:password class="form-control" 
+												value="#{loginManagedBean.loginModel.password}" />
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="mb-3">
 											<div class="form-check form-check-primary form-check-inline">
 												<input class="form-check-input me-3" type="checkbox"
-													id="form-check-default" ></input> <label
+													id="form-check-default"></input> <label
 													class="form-check-label" for="form-check-default">
-														Remember me </label>
+													Remember me </label>
 											</div>
 										</div>
 									</div>
 
 									<div class="col-12">
 										<div class="mb-4 signinbtn">
-											<h:commandButton value=" SIGN IN " styleClass="btn" 
-												action="#{loginManagedBean.adminLogin()}" />											 
+											<p:commandButton value=" SIGN IN " styleClass="ui-button-danger"
+												action="#{loginManagedBean.adminLogin}" onclick="showBlockUI();" oncomplete="hideBlockUI()"  />
 										</div>
 									</div>
 
@@ -93,7 +104,16 @@
 		</div>
 
 	</h:form>
-
+ <script language="javascript">
+ function showBlockUI(){
+	 document.getElementById('loader').style.display = 'block';
+	  document.getElementById('blockUI').style.display = 'block';
+ }
+ function hideBlockUI(){
+	 document.getElementById('loader').style.display = 'none';
+	  document.getElementById('blockUI').style.display = 'none';
+ }
+ </script>
 
 </h:body>
 </html>

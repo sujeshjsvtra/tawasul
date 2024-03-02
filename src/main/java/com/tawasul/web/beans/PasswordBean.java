@@ -3,9 +3,9 @@ package com.tawasul.web.beans;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.annotation.PostConstruct; 
 import javax.faces.application.FacesMessage;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 

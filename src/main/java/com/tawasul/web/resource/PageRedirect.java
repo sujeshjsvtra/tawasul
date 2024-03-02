@@ -1,18 +1,17 @@
-package com.tawasul.web.beans;
+package com.tawasul.web.resource;
 
 import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean; 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 
 import com.tawasul.web.util.SystemConstants;
 
-@Named("pageRedirect")
+@ManagedBean(name = "pageRedirect")
 @SessionScoped
 public class PageRedirect {
 
@@ -53,11 +52,6 @@ public class PageRedirect {
 			redirectToPage(SystemConstants.ADD_CONSULTATIONS_SCREEN + facesRedirect);
 			setActiveMenu(SystemConstants.COMMON_CONSULTATIONS_MENU);
 			setActiveLabel(SystemConstants.LABEL_ADD_CONSULTATIONS);
-			break;
-		case SystemConstants.EDIT_CONSULTATIONS_SCREEN:
-			redirectToPage(SystemConstants.EDIT_CONSULTATIONS_SCREEN + facesRedirect);
-			setActiveMenu(SystemConstants.COMMON_CONSULTATIONS_MENU);
-			setActiveLabel(SystemConstants.LABEL_EDIT_CONSULTATIONS);
 			break;
 		case SystemConstants.VIEW_CONSULTATIONS_MENU:
 			redirectToPage(SystemConstants.VIEW_CONSULTATIONS_SCREEN + facesRedirect);

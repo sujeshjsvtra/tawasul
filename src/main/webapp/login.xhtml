@@ -11,6 +11,7 @@
 
 	<ui:composition template="/WEB-INF/templates/common.xhtml">
 		<ui:define name="content">
+		 
 			<div class="fluid topbar">
 				<div class="date_time">
 					<span> Welcome to</span> <span
@@ -19,16 +20,16 @@
 				</div>
 
 				<div class="eKeyLogin">
-				  <h:form>
+				  <h:form id="loginform">
 					<h:graphicImage library="images" name="ekeyLogoForHeader.png" />
 					
-					<p:inputText placeholder="ID Number" title="ID Number" autocomplete="off"
+					<p:inputText placeholder="ID Number" title="ID Number" autocomplete="false"
 					value="#{loginManagedBean.loginModel.userName}" />
 					&nbsp;
-					<p:password placeholder="Password"  title="Password"
+					<p:password placeholder="Password"  title="Password" autocomplete="false"
 					 value="#{loginManagedBean.loginModel.password}" />  
 					 
-				    <h:commandButton  value="Login" action="#{loginManagedBean.login()}" />		
+				    <h:commandButton  value="Login" action="#{loginManagedBean.adminLogin()}" onclick="PF('buiBasic').show();" />		
 					 
 					<div class="eKeyButtons">
 						<a href="user-registration.html">Register</a> | <a href="#">Forgot
