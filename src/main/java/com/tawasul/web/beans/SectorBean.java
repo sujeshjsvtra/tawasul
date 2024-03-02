@@ -1,29 +1,30 @@
 package com.tawasul.web.beans;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.faces.application.FacesMessage;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.servlet.http.HttpServletRequest;
 
-import com.tawasul.web.util.MessageUtil;
-import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
 
 import com.tawasul.web.model.Sector;
 import com.tawasul.web.service.SectorService;
-import com.tawasul.web.util.HibernateUtil;
+import com.tawasul.web.util.MessageUtil;
+import com.tawasul.web.util.StatusEnum;
 
+import lombok.*;
 
-@RequestScoped
+@ViewScoped
 @Named
 @Getter
 @Setter
@@ -38,7 +39,11 @@ public class SectorBean implements Serializable {
 	private Sector sector;
 	private String sectorName;
 	private String sectorNameArabic;
+	private String status;
 	private List<Sector> selectedSectors;
+	private Map<String, String> statusMap;
+
+	private Sector existingSector;
 
 	@Inject
 	private SectorService sectorService;
@@ -46,8 +51,19 @@ public class SectorBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		sectorService = new SectorService();
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		String parameterId = request.getParameter("id");
+		if (StringUtils.isNotBlank(parameterId)) {
+			existingSector = new Sector();
+			setExistingSector(loadExistingSector(parameterId));
+		}
 		setSectors(sectorService.populateSectors());
-		resetSectorForm();
+
+		statusMap =  Arrays.stream(StatusEnum.values())
+				.collect(Collectors.toMap(StatusEnum::name, StatusEnum::getStatus));
 	}
 
 	@PreDestroy
@@ -56,7 +72,7 @@ public class SectorBean implements Serializable {
 
 	public void saveSector() {
 		if (StringUtils.isNotBlank(this.getSectorName())) {
-			sectorService.saveSector(this.getSectorName(), this.getSectorNameArabic(), "A");
+			sectorService.saveSector(this.getSectorName(), this.getSectorNameArabic(), "O");
 			resetSectorForm();
 			MessageUtil.info("Saved successfully");
 		} else {
@@ -64,9 +80,27 @@ public class SectorBean implements Serializable {
 		}
 	}
 
-	public void resetSectorForm()
-	{
+	public void resetSectorForm() {
 		setSectorName("");
 		setSectorNameArabic("");
+	}
+
+	public String editSector(Sector sector) {
+		return "edit-sector?id="+sector.getId()+"faces-redirect=true";
+	}
+
+	public void deleteSector(Sector sector) {
+		sectorService.deleteSector(sector);
+	}
+
+	public Sector loadExistingSector(String id) {
+		sector = sectorService.fetchSectorById(Long.parseLong(id));
+		System.out.println("Fetched sector: " + sector.toString());
+
+		setSectorName(sector.getName());
+		setSectorNameArabic(sector.getArabicName());
+		setStatus(sector.getStatus());
+
+		return sector;
 	}
 }

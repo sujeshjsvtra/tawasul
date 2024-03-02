@@ -4,15 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 
-import com.tawasul.web.model.User;
+import com.tawasul.web.model.Consultation;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import com.tawasul.web.model.Sector;
 import com.tawasul.web.util.HibernateUtil;
@@ -49,9 +48,15 @@ public class SectorService implements Serializable {
 		session = hibernateUtil.getSessionFactory().openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 
-		CriteriaQuery<Sector> criteria = builder.createQuery(Sector.class);
-		criteria.from(Sector.class);
-		List<Sector> sectors = session.createQuery(criteria).getResultList();
+		//CriteriaQuery<Sector> criteria = builder.createQuery(Sector.class);
+		//criteria.from(Sector.class);
+
+		Query query = session.createQuery( "from Sector where status <> :status");
+		long i = 0;
+		query.setParameter( "status", "D" );
+		List<Sector> sectors = query.list();
+
+		//List<Sector> sectors = session.createQuery(criteria).getResultList();
 
 		setSectors(sectors);
 		session.close();
@@ -69,5 +74,24 @@ public class SectorService implements Serializable {
 		session.save(sector);
 		session.getTransaction().commit();
 		session.close();
+	}
+
+	public void deleteSector(Sector sector) {
+		session = hibernateUtil.getSessionFactory().openSession();
+
+		sector.setStatus("D");
+		session.saveOrUpdate(sector);
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	public Sector fetchSectorById(Long id) {
+		session = hibernateUtil.getSessionFactory().openSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+
+		Sector sector = session.get(Sector.class, id);
+
+		session.close();
+		return sector;
 	}
 }
