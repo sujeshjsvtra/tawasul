@@ -51,7 +51,8 @@ public class Consultation {
 			joinColumns = @JoinColumn(name = "consultation_id"),
 			inverseJoinColumns = @JoinColumn(name = "survey_id")
 	)
-	private Set<Survey> survey= new HashSet<>();*/
+	@ToString.Exclude
+	private Set<Survey> survey= new HashSet<>();
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
