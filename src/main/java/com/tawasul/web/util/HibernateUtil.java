@@ -1,23 +1,21 @@
 package com.tawasul.web.util;
 
+import java.util.ResourceBundle;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import javax.transaction.Transactional;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.ResourceBundle;
-
+//TODO check what scope is required here
 @Named
-@ApplicationScoped
+@RequestScoped
+@Transactional
 public class HibernateUtil {
 
 	private static SessionFactory sessionFactory;
-	private static Configuration configuration;
 
 	public HibernateUtil() {
 		sessionFactory = buildSessionFactory();
@@ -32,9 +30,8 @@ public class HibernateUtil {
 
 	private static SessionFactory buildSessionFactory() {
 		ResourceBundle rb = ResourceBundle.getBundle("hibernate");
-		Properties props = new Properties();
 
-		configuration = new Configuration();
+		Configuration configuration = new Configuration();
 
 		configuration.setProperty("hibernate.connection.url", rb.getString("hibernate.connection.url"));
 		configuration.setProperty("hibernate.connection.password", rb.getString("hibernate.username"));
