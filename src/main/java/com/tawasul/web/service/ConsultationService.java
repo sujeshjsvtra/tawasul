@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
 
 import com.tawasul.web.model.Consultation;
 import org.hibernate.Session;
@@ -28,6 +29,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Transactional
 public class ConsultationService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
