@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.tawasul.web.util.MessageUtil;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
@@ -57,11 +58,9 @@ public class SectorBean implements Serializable {
 		if (StringUtils.isNotBlank(this.getSectorName())) {
 			sectorService.saveSector(this.getSectorName(), this.getSectorNameArabic(), "A");
 			resetSectorForm();
-			new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Saved successfully");
+			MessageUtil.info("Saved successfully");
 		} else {
-			//new FacesMessage(FacesMessage.SEVERITY_WARN, "Failure", "Sector Name is required");
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Sector Name is required", "Sector Name is required"));
+			MessageUtil.error("Sector Name is required");
 		}
 	}
 
