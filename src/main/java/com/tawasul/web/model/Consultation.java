@@ -45,7 +45,7 @@ public class Consultation {
 	@OneToOne
 	private Sector sector;
 
-/*	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinTable(
 			name = "consultation_survey",
 			joinColumns = @JoinColumn(name = "consultation_id"),
