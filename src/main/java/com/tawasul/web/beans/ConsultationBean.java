@@ -16,6 +16,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,7 +29,7 @@ import com.tawasul.web.util.SystemConstants;
 import lombok.*;
 
 
-@ApplicationScoped
+@ViewScoped
 @Named
 @Getter
 @Setter
@@ -136,7 +137,7 @@ public class ConsultationBean implements Serializable {
 
 	public Consultation loadExistingConsultation(String id) {
 		consultation = consultationService.fetchConsultationById(Long.parseLong(id));
-		System.out.println("Fetched : "+ consultation.toString());
+		//System.out.println("Fetched : "+ consultation.toString());
 
 		setConsultationName(consultation.getName());
 		setConsultationTopic(consultation.getTopic());
@@ -149,8 +150,9 @@ public class ConsultationBean implements Serializable {
 	}
 
 
+	@Transactional
 	public void editConsultation(Consultation consultation) {
-		System.out.println("Edit Consultation: "  + consultation);
+ 			System.out.println("Edit Consultation: "  + consultation);
 		pageRedirect.redirectToPage(SystemConstants.EDIT_CONSULTATIONS_SCREEN + "?id=" + consultation.getId());
 	}
 
