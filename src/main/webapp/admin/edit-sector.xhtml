@@ -1,0 +1,76 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+    <ui:composition template="/WEB-INF/templates/admin-template.xhtml">
+        <ui:define name="content">
+            <p:growl id="growl" sticky="false" showDetail="true" life="2000"/>
+            <h:form>
+                <div class="header">
+                    <h3 class="">Edit Sector</h3>
+                </div>
+
+                <div class="row layout-spacing">
+                    <div class="col-lg-12">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-content widget-content-area">
+                                <div class="box_form">
+
+                                    <div class="row ">
+                                        <div class="col-md-8 pwd">
+                                            <div class="col-md-12 mt-4">
+                                                <div class="input-field mb-3">
+                                                    <label>Sector Name *</label>
+                                                    <p:inputText class="form-control" required="true"
+                                                                 value="#{sectorBean.sectorName}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-4">
+                                                <div class="input-field mb-3">
+                                                    <label>Sector Name (Arabic)</label>
+                                                    <p:inputText class="form-control rtl" required="false" dir="rtl"
+                                                                 value="#{sectorBean.sectorNameArabic}" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 mt-4">
+                                                <div class="input-field mb-3">
+                                                    <label>Status</label>
+                                                    <p:selectOneButton value="#{sectorBean.status}">
+                                                        <f:selectItem itemLabel="Open" itemValue="O" />
+                                                        <f:selectItem itemLabel="Closed" itemValue="C" />
+                                                    </p:selectOneButton>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br/>
+                                    <div class="col-md-12 align-items-end address_full_row">
+                                        <div class="buttons ">
+                                            <p:commandButton class="btn" value="Submit"
+                                                             action="#{sectorBean.saveSector}" update="growl,@form"/>
+                                            <p:commandButton class="btn cancel-btn" value="Reset"
+                                                             action="#{sectorBean.resetSectorForm}" resetValues="true"
+                                                             update="@form"/>
+                                        </div>
+
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>
