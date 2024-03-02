@@ -9,10 +9,9 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,6 @@ import com.tawasul.web.service.SectorService;
 import com.tawasul.web.util.SystemConstants;
 
 import lombok.*;
-
 
 @ViewScoped
 @Named
@@ -117,7 +115,7 @@ public class ConsultationBean implements Serializable {
 			context.addMessage(null, new FacesMessage("Sector Name is required", "Sector Name is required"));
 		}
 	}
-	
+
 	private Sector fetchSector() {
 		return getSectorList().stream()
 				.filter(sector -> getSelectedSector().equals(String.valueOf(sector.getId())))
@@ -156,7 +154,7 @@ public class ConsultationBean implements Serializable {
 		pageRedirect.redirectToPage(SystemConstants.EDIT_CONSULTATIONS_SCREEN + "?id=" + consultation.getId());
 	}
 
-	
+
 	public void deleteConsultation(Consultation consultation) {
 		consultationService.deleteConsultation(consultation);
 	}
