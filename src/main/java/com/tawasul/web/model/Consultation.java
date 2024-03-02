@@ -1,19 +1,19 @@
 package com.tawasul.web.model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import 	java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -45,13 +45,13 @@ public class Consultation {
 	@OneToOne
 	private Sector sector;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+/*	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinTable(
 			name = "consultation_survey",
 			joinColumns = @JoinColumn(name = "consultation_id"),
 			inverseJoinColumns = @JoinColumn(name = "survey_id")
 	)
-	private List<Survey> survey = new ArrayList<>();
+	private Set<Survey> survey= new HashSet<>();*/
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
