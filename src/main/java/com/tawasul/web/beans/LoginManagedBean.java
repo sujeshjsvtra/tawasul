@@ -5,57 +5,86 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
-import com.tawasul.web.resource.LoginModel;
-import com.tawasul.web.util.SystemConstants;
+import org.apache.commons.lang3.StringUtils;
+
+import com.tawasul.web.model.LoginModel;
+import com.tawasul.web.model.User;
+import com.tawasul.web.service.impl.AuthenticationServiceImpl;
+import com.tawasul.web.util.MessageUtil;
 
 @ManagedBean(name = "loginManagedBean")
-@RequestScoped
+@SessionScoped
 public class LoginManagedBean {
-
+	 private boolean showOverlay = false;
 	private LoginModel loginModel;
+	
+	@ManagedProperty(value="#{authenticationServiceImpl}")
+	private AuthenticationServiceImpl authenticationServiceImpl;
 
 	@PostConstruct
 	public void init() {
 		loginModel = new LoginModel();
+		 
 	}
 
-	public void login() {
+ 
+
+	public String adminLogin() {
+		if (validateUser()) {
+			try {
+				 User user = authenticationServiceImpl.login(getLoginModel());
+				 if(user!=null) {
+					  showOverlay = false;
+					 return "admin-dashboard?faces-redirect=true";
+				 }
+				 MessageUtil.info(" Invalid credentials");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+			
+		return null;
+	}
+
+	private boolean validateUser() {
+		boolean result = true;
 		FacesMessage message = null;
-		boolean loggedIn = false;
-
-		if (getLoginModel().getUserName() != null && getLoginModel().getUserName().equals("admin")
-				&& getLoginModel().getPassword() != null && getLoginModel().getPassword().equals("admin")) {
-			loggedIn = true;
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", getLoginModel().getUserName());
-		} else {
-			loggedIn = false;
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (StringUtils.isEmpty(getLoginModel().getUserName())) {
+			MessageUtil.info(" Email cannot be an empty");
+			result = false;
+		}else if(!isValidEmail()) {
+			MessageUtil.error(" Invalid email address");
+			result = false;
+		}else if(StringUtils.isEmpty(getLoginModel().getPassword())) {
+			MessageUtil.info(" Password cannot be an empty");
+			result = false; 
 		}
 
-		try {
-			redirectToPage(SystemConstants.ADMIN_DASHBOARD_SCREEN);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		context.addMessage(null, message);
+		return result;
 	}
-
-	public void adminLogin() {
-		redirectToPage(SystemConstants.ADMIN_DASHBOARD_SCREEN);
-	}
-
-	public void redirectToPage(String page) {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = facesContext.getExternalContext();
+ 
+	
+	private boolean isValidEmail() {
+		boolean result = true;
 		try {
-			externalContext.redirect(page); // Specify the target page here
-		} catch (IOException e) {
-			e.printStackTrace();
+		InternetAddress emailAddr = new InternetAddress(getLoginModel().getUserName());
+		emailAddr.validate();
+		} catch (AddressException ex) {
+		result = false;
 		}
+		return result;
 	}
 
 	public LoginModel getLoginModel() {
@@ -65,5 +94,31 @@ public class LoginManagedBean {
 	public void setLoginModel(LoginModel loginModel) {
 		this.loginModel = loginModel;
 	}
+
+
+
+	public AuthenticationServiceImpl getAuthenticationServiceImpl() {
+		return authenticationServiceImpl;
+	}
+
+
+
+	public void setAuthenticationServiceImpl(AuthenticationServiceImpl authenticationServiceImpl) {
+		this.authenticationServiceImpl = authenticationServiceImpl;
+	}
+
+
+
+	public boolean isShowOverlay() {
+		return showOverlay;
+	}
+
+
+
+	public void setShowOverlay(boolean showOverlay) {
+		this.showOverlay = showOverlay;
+	}
+	
+	
 
 }

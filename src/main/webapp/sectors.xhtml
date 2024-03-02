@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>View Sectors</title>
+    <style>
+        .col-1 {
+            text-align: right;
+        }
+
+        .col-2 {
+            font-weight: bold;
+        }
+    </style>
+</h:head>
+<h:body>
+
+
+    <div class="loginMainPanel">
+        <h:form>
+            <p:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="sector" value="Sector Name:"/>
+                <p:inputText id="sector" required="true" label="sector"
+                             value="#{sectorBean.sectorName}"/>
+
+                <!--      <h:outputLabel for="sector_ar" value="Sector Name (Arabic):"/>
+                      <p:inputText id="sector_ar" required="false" label="sector_ar"
+                                  value="#{sectorBean.sector.id}"/>
+  -->
+                <p:commandButton value="Save" action="#{sectorBean.createSector}"/>
+
+            </p:panelGrid>
+        </h:form>
+    </div>
+
+    <p:dataTable tableStyle="table-wrapper" scrollable="false"
+                 tableStyleClass="myTableClass"
+                 style="border-left:none; border: hidden; border-style: none;"
+                 id="basicDT" var="sector"
+                 value="#{sectorBean.sectors}"
+                 selectionMode="single"
+                 rowKey="#{sector.id}">
+        <!--  <p:ajax event="rowSelect"
+                  listener="#{subCategoryController.onRowSelect}"
+                  update=":form:panelGrid"/>-->
+
+        <p:column headerText="S No."
+                  style="text-align: left; width:5%">
+            <h:outputText value="#{sector.id}"/>
+        </p:column>
+
+        <p:column headerText="Sectors"
+                  style="text-align: left; width:5%">
+            <h:outputText value="#{sector.name}"/>
+        </p:column>
+
+        <p:column style="text-align: right;  width: 20px;"
+                  headerText="Action">
+            <!--
+                        <p:commandButton value="view" styleClass="button icon fa-trash"
+                                         title="view"
+                                         actionListener="#{subCategoryController.delete(car)}"
+                                         update="form" style="hover:blue;">
+                        </p:commandButton>
+
+                        <p:commandButton value="edit" styleClass="button icon fa-trash"
+                                         title="edit"
+                                         actionListener="#{subCategoryController.delete(car)}"
+                                         update="form" style="hover:blue;">
+                        </p:commandButton>
+
+                        <p:commandButton value="delete" styleClass="button icon fa-trash"
+                                         title="edit"
+                                         actionListener="#{subCategoryController.delete(car)}"
+                                         update="form" style="hover:blue;">
+                        </p:commandButton>-->
+        </p:column>
+
+    </p:dataTable>
+</h:body>
+</html>

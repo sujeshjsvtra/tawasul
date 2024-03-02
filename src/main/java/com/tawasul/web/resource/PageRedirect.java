@@ -1,18 +1,17 @@
-package com.tawasul.web.beans;
+package com.tawasul.web.resource;
 
 import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean; 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 
 import com.tawasul.web.util.SystemConstants;
 
-@Named("pageRedirect")
+@ManagedBean(name = "pageRedirect")
 @SessionScoped
 public class PageRedirect {
 
