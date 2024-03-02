@@ -64,20 +64,18 @@ public class ConsultationService implements Serializable {
 		session = hibernateUtil.getSessionFactory().openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 
-		Consultation consultation = session.get( Consultation.class, id );
+		Consultation consultation = session.get(Consultation.class, id);
 
 		session.close();
 		return consultation;
 	}
 
-
-
-	public void saveOrUpdateConsultation(Consultation existingConsultation, String name, String topic, String description, LocalDate startDate, LocalDate endDate, Sector sector,
-								 String status) {
+	public void saveOrUpdateConsultation(Consultation existingConsultation, String name, String topic,
+			String description, LocalDate startDate, LocalDate endDate, Sector sector, String status) {
 		session = hibernateUtil.getSessionFactory().openSession();
 
 		session.beginTransaction();
-		
+
 		if (existingConsultation == null) {
 			Consultation consultation = new Consultation();
 			consultation.setName(name);
@@ -90,7 +88,7 @@ public class ConsultationService implements Serializable {
 
 			session.saveOrUpdate(consultation);
 		} else {
-			System.out.println("Updating existing consultation: "+ existingConsultation);
+			System.out.println("Updating existing consultation: " + existingConsultation);
 			session.saveOrUpdate(existingConsultation);
 		}
 
