@@ -98,7 +98,9 @@ public class ConsultationService implements Serializable {
 
 	public void deleteConsultation(Consultation consultation) {
 		session = hibernateUtil.getSessionFactory().openSession();
-		session.delete(consultation);
+
+		consultation.setStatus("D");
+		session.saveOrUpdate(consultation);
 		session.getTransaction().commit();
 		session.close();
 	}
