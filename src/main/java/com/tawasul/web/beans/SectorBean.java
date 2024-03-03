@@ -45,7 +45,6 @@ public class SectorBean implements Serializable {
 	private Sector existingSector;
 	private boolean editMode;
 
-	//@ManagedProperty(value="#{sectorService}")
 	@Inject
 	private SectorService sectorService;
 
@@ -67,20 +66,22 @@ public class SectorBean implements Serializable {
 
 		statusMap = Arrays.stream(StatusEnum.values())
 				.collect(Collectors.toMap(StatusEnum::name, StatusEnum::getStatus));
-		setStatus("O");
+		setStatus(StatusEnum.OPEN.getStatus());
 	}
 
 	@PreDestroy
 	public void preDestory() {
 	}
 
-	public void saveOrUpdateSector() {
+	public String saveOrUpdateSector() {
 		if (StringUtils.isNotBlank(this.getSectorName()) || StringUtils.isNotBlank(this.getSectorNameArabic())) {
-			sectorService.saveOrUpdateSector(existingSector, this.getSectorName(), this.getSectorNameArabic(),
+			sectorService.saveOrUpdateSector(getExistingSector(), this.getSectorName(), this.getSectorNameArabic(),
 					this.getStatus());
 			resetSectorForm();
 			if (editMode) {
 				MessageUtil.info("Updated successfully");
+				return "view-sector" + "?faces-redirect=true";
+
 			} else {
 				MessageUtil.info("Saved successfully");
 			}
@@ -88,6 +89,7 @@ public class SectorBean implements Serializable {
 		} else {
 			MessageUtil.error("Sector Name is required");
 		}
+		return "";
 	}
 
 	public void resetSectorForm() {
@@ -96,7 +98,7 @@ public class SectorBean implements Serializable {
 	}
 
 	public String editSector(Sector sector) {
-		return "add-sector?id=" + sector.getId() + "faces-redirect=true";
+		return "add-sector?id=" + sector.getId() + "?faces-redirect=true";
 	}
 
 	public void deleteSector(Sector sector) {
@@ -105,7 +107,6 @@ public class SectorBean implements Serializable {
 
 	public Sector loadExistingSector(String id) {
 		sector = sectorService.fetchSectorById(Long.parseLong(id));
-		System.out.println("Fetched sector: " + sector.toString());
 
 		setSectorName(sector.getName());
 		setSectorNameArabic(sector.getArabicName());
