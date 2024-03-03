@@ -3,6 +3,7 @@ package com.tawasul.web.beans;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,8 +11,8 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import com.tawasul.web.model.Consultation;
 import com.tawasul.web.model.Sector;
 import com.tawasul.web.service.ConsultationService;
 import com.tawasul.web.service.SectorService;
+import com.tawasul.web.util.MessageUtil;
+import com.tawasul.web.util.StatusEnum;
 import com.tawasul.web.util.SystemConstants;
 
 import lombok.*;
@@ -122,6 +125,11 @@ public class ConsultationBean implements Serializable {
 				.findFirst().orElse(null);
 	}
 
+	public String convertDate(LocalDate localDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		return localDate.format(formatter);
+	}
+
 	// View / Edit / Delete Consultation
 	public String fetchSectorName(Consultation consultation) {
 		if (consultation != null && consultation.getSector() != null) {
@@ -131,6 +139,15 @@ public class ConsultationBean implements Serializable {
 			return "";
 		}
 
+	}
+
+	public String fetchStatus(Consultation consultation) {
+		if (consultation != null && consultation.getStatus() != null) {
+			return StatusEnum.getDisplayNameByStatus(consultation.getStatus());
+		}
+		{
+			return "Invalid";
+		}
 	}
 
 	public Consultation loadExistingConsultation(String id) {
@@ -153,8 +170,10 @@ public class ConsultationBean implements Serializable {
 		pageRedirect.redirectToPage(SystemConstants.EDIT_CONSULTATIONS_SCREEN + "?id=" + consultation.getId());
 	}
 
+	@Transactional
 	public void deleteConsultation(Consultation consultation) {
 		consultationService.deleteConsultation(consultation);
+		MessageUtil.info("Deleted successfully");
 	}
 
 }
