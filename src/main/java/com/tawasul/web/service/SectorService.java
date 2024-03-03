@@ -4,15 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 
-import com.tawasul.web.model.Consultation;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -24,8 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@SessionScoped
-@ManagedBean(name = "sectorService")
+@Named
 @Getter
 @Setter
 @NoArgsConstructor
@@ -61,6 +57,7 @@ public class SectorService implements Serializable {
 	}
 
 	public void saveOrUpdateSector(Sector existingSector, String sectorName, String sectorNameArabic, String status) {
+
 		session = hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
