@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -21,8 +24,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@ApplicationScoped
-@Named
+@SessionScoped
+@ManagedBean(name = "sectorService")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,9 +36,10 @@ public class SectorService implements Serializable {
 
 	private List<Sector> sectors;
 
-	@Inject
+	//@ManagedProperty(value="#{session}")
 	private Session session;
 
+	//@ManagedProperty(value="#{hibernateUtil}")
 	@Inject
 	private HibernateUtil hibernateUtil;
 
@@ -46,41 +50,44 @@ public class SectorService implements Serializable {
 
 	public List<Sector> populateSectors() {
 		session = hibernateUtil.getSessionFactory().openSession();
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-
-		//CriteriaQuery<Sector> criteria = builder.createQuery(Sector.class);
-		//criteria.from(Sector.class);
 
 		Query query = session.createQuery( "from Sector where status <> :status");
-		long i = 0;
 		query.setParameter( "status", "D" );
 		List<Sector> sectors = query.list();
-
-		//List<Sector> sectors = session.createQuery(criteria).getResultList();
 
 		setSectors(sectors);
 		session.close();
 		return sectors;
 	}
 
-	public void saveSector(String sectorName, String sectorNameArabic, String status) {
+	public void saveOrUpdateSector(Sector existingSector, String sectorName, String sectorNameArabic, String status) {
 		session = hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
+
 		Sector sector = new Sector();
 		sector.setName(sectorName);
 		sector.setArabicName(sectorNameArabic);
 		sector.setStatus(status);
 
-		session.save(sector);
-		session.getTransaction().commit();
+        if (existingSector == null) {
+            session.saveOrUpdate(sector);
+        } else {
+			existingSector.setName(sectorName);
+			existingSector.setArabicName(sectorNameArabic);
+			existingSector.setStatus(status);
+            session.saveOrUpdate(existingSector);
+        }
+
+        session.getTransaction().commit();
 		session.close();
 	}
 
 	public void deleteSector(Sector sector) {
 		session = hibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 
 		sector.setStatus("D");
-		session.saveOrUpdate(sector);
+		session.update(sector);
 		session.getTransaction().commit();
 		session.close();
 	}

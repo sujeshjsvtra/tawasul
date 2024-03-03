@@ -1,10 +1,10 @@
 package com.tawasul.web.beans;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -42,14 +42,16 @@ public class SectorBean implements Serializable {
 	private String status;
 	private List<Sector> selectedSectors;
 	private Map<String, String> statusMap;
-
 	private Sector existingSector;
+	private boolean editMode;
 
+	//@ManagedProperty(value="#{sectorService}")
 	@Inject
 	private SectorService sectorService;
 
 	@PostConstruct
 	public void init() {
+		System.out.println("Post construct called at " + LocalDateTime.now());
 		sectorService = new SectorService();
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -59,22 +61,30 @@ public class SectorBean implements Serializable {
 		if (StringUtils.isNotBlank(parameterId)) {
 			existingSector = new Sector();
 			setExistingSector(loadExistingSector(parameterId));
+			setEditMode(true);
 		}
 		setSectors(sectorService.populateSectors());
 
-		statusMap =  Arrays.stream(StatusEnum.values())
+		statusMap = Arrays.stream(StatusEnum.values())
 				.collect(Collectors.toMap(StatusEnum::name, StatusEnum::getStatus));
+		setStatus("O");
 	}
 
 	@PreDestroy
 	public void preDestory() {
 	}
 
-	public void saveSector() {
-		if (StringUtils.isNotBlank(this.getSectorName())) {
-			sectorService.saveSector(this.getSectorName(), this.getSectorNameArabic(), "O");
+	public void saveOrUpdateSector() {
+		if (StringUtils.isNotBlank(this.getSectorName()) || StringUtils.isNotBlank(this.getSectorNameArabic())) {
+			sectorService.saveOrUpdateSector(existingSector, this.getSectorName(), this.getSectorNameArabic(),
+					this.getStatus());
 			resetSectorForm();
-			MessageUtil.info("Saved successfully");
+			if (editMode) {
+				MessageUtil.info("Updated successfully");
+			} else {
+				MessageUtil.info("Saved successfully");
+			}
+
 		} else {
 			MessageUtil.error("Sector Name is required");
 		}
@@ -86,7 +96,7 @@ public class SectorBean implements Serializable {
 	}
 
 	public String editSector(Sector sector) {
-		return "edit-sector?id="+sector.getId()+"faces-redirect=true";
+		return "add-sector?id=" + sector.getId() + "faces-redirect=true";
 	}
 
 	public void deleteSector(Sector sector) {
