@@ -54,11 +54,6 @@ public class PageRedirect {
 			setActiveMenu(SystemConstants.COMMON_CONSULTATIONS_MENU);
 			setActiveLabel(SystemConstants.LABEL_ADD_CONSULTATIONS);
 			break;
-		case SystemConstants.EDIT_CONSULTATIONS_SCREEN:
-			redirectToPage(SystemConstants.EDIT_CONSULTATIONS_SCREEN + facesRedirect);
-			setActiveMenu(SystemConstants.COMMON_CONSULTATIONS_MENU);
-			setActiveLabel(SystemConstants.LABEL_EDIT_CONSULTATIONS);
-			break;
 		case SystemConstants.VIEW_CONSULTATIONS_MENU:
 			redirectToPage(SystemConstants.VIEW_CONSULTATIONS_SCREEN + facesRedirect);
 			setActiveMenu(SystemConstants.COMMON_CONSULTATIONS_MENU);
