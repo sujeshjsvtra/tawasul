@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,20 +26,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.query.Query;
 
-@ApplicationScoped
 @Named
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Transactional
 public class ConsultationService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private List<Consultation> consultations;
 
-	@Inject
 	private Session session;
 
 	@Inject
@@ -51,8 +50,8 @@ public class ConsultationService implements Serializable {
 	public List<Consultation> populateConsultations() {
 		session = hibernateUtil.getSessionFactory().openSession();
 
-		Query query = session.createQuery( "from Consultation where status <> :status");
-		query.setParameter( "status", "D" );
+		Query query = session.createQuery("from Consultation where status <> :status");
+		query.setParameter("status", "D");
 		List<Consultation> consultations = query.list();
 
 		setConsultations(consultations);
@@ -72,25 +71,30 @@ public class ConsultationService implements Serializable {
 
 	public void saveOrUpdateConsultation(Consultation existingConsultation, String name, String topic,
 			String description, LocalDate startDate, LocalDate endDate, Sector sector, String status) {
-		session = hibernateUtil.getSessionFactory().openSession();
 
+		session = hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-		if (existingConsultation == null) {
-			Consultation consultation = new Consultation();
-			consultation.setName(name);
-			consultation.setTopic(topic);
-			consultation.setDescription(description);
-			consultation.setStatus(status);
-			consultation.setStartDate(startDate);
-			consultation.setEndDate(endDate);
-			consultation.setSector(sector);
+		Consultation consultation;
 
-			session.saveOrUpdate(consultation);
+		if (existingConsultation == null) {
+			consultation = new Consultation();
+
 		} else {
-			System.out.println("Updating existing consultation: " + existingConsultation);
-			session.saveOrUpdate(existingConsultation);
+			consultation = existingConsultation;
+			System.out.println("Updating existing consultation: " + consultation);
+
 		}
+
+		consultation.setName(name);
+		consultation.setTopic(topic);
+		consultation.setDescription(description);
+		consultation.setStatus(status);
+		consultation.setStartDate(startDate);
+		consultation.setEndDate(endDate);
+		consultation.setSector(sector);
+
+		session.saveOrUpdate(consultation);
 
 		session.getTransaction().commit();
 		session.close();
@@ -101,7 +105,6 @@ public class ConsultationService implements Serializable {
 		session.beginTransaction();
 		consultation.setStatus("D");
 
-		System.out.println("Delete consultation: " + consultation);
 		session.update(consultation);
 		session.getTransaction().commit();
 		session.close();

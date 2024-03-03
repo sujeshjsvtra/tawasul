@@ -44,6 +44,7 @@ public class ConsultationBean implements Serializable {
 	private List<Consultation> consultations;
 	private Consultation consultation;
 	private Consultation existingConsultation;
+	private boolean editMode;
 
 	//Input fields
 	private String consultationName;
@@ -55,6 +56,7 @@ public class ConsultationBean implements Serializable {
 	private List<Sector> sectorList;
 	private Map<String, Long> sectorDropdown;
 	private String selectedSector;
+	private String status;
 
 	@Inject
 	private ConsultationService consultationService;
@@ -80,12 +82,14 @@ public class ConsultationBean implements Serializable {
 		if (StringUtils.isNotBlank(parameterId)) {
 			existingConsultation = new Consultation();
 			setExistingConsultation(loadExistingConsultation(parameterId));
+			setEditMode(true);
 		}
 
 		setConsultations(consultationService.populateConsultations());
 
 		sectorService = new SectorService();
 		setSectorList(sectorService.populateSectors());
+		setStatus(StatusEnum.OPEN.getStatus());
 		sectorDropdown = getSectorList().stream().collect(Collectors.toMap(Sector::getName, Sector::getId));
 	}
 
@@ -98,25 +102,29 @@ public class ConsultationBean implements Serializable {
 		setSelectedSector("");
 	}
 
-
 	@PreDestroy
 	public void preDestory() {
 	}
 
-	public void saveConsultation() {
+	public String saveOrUpdateConsultation() {
 		if (StringUtils.isNotBlank(this.getConsultationName())) {
 
 			System.out.println("Existing consultation : " +this.getExistingConsultation());
 			consultationService.saveOrUpdateConsultation(this.getExistingConsultation(), getConsultationName(), getConsultationTopic(),
-					getConsultationDescription(), getStartDate(), getEndDate(), this.fetchSector(), "A");
+					getConsultationDescription(), getStartDate(), getEndDate(), this.fetchSector(), this.getStatus());
 
 			resetConsultationForm();
-			new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Saved successfully");
+			if (editMode) {
+				MessageUtil.info("Updated successfully");
+				return "view-consultation" + "?faces-redirect=true";
+			} else {
+				MessageUtil.info("Saved successfully");
+			}
+			MessageUtil.info("Saved successfully");
 		} else {
-			//new FacesMessage(FacesMessage.SEVERITY_WARN, "Failure", "Sector Name is required");
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Sector Name is required", "Sector Name is required"));
+			MessageUtil.error("Error");
 		}
+		return "";
 	}
 
 	private Sector fetchSector() {
@@ -167,7 +175,7 @@ public class ConsultationBean implements Serializable {
 	@Transactional
 	public void editConsultation(Consultation consultation) {
  			System.out.println("Edit Consultation: "  + consultation);
-		pageRedirect.redirectToPage(SystemConstants.EDIT_CONSULTATIONS_SCREEN + "?id=" + consultation.getId());
+		pageRedirect.redirectToPage(SystemConstants.ADD_CONSULTATIONS_SCREEN + "?id=" + consultation.getId());
 	}
 
 	@Transactional
