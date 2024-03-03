@@ -2,16 +2,12 @@ package com.tawasul.web.util;
 
 import java.util.ResourceBundle;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-//TODO check what scope is required here
-@Named
-@RequestScoped
+//TODO check if scope is required here
 @Transactional
 public class HibernateUtil {
 
