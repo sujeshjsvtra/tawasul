@@ -72,7 +72,20 @@ public class SectorBean implements Serializable {
 	@PreDestroy
 	public void preDestory() {
 	}
+	
+	public void validateUnique()
+	{
+		if (getSectorName() != null) {
+			System.out.println("Sector Name: " + getSectorName());
+			List<Sector> sectors = sectorService.fetchSectors(getSectorName(), null);
 
+			if (sectors.size() > 0) {
+				MessageUtil.error(getSectorName() + " already exists. Try another name.");
+				setSectorName("");
+			}
+		}
+	}
+	
 	public String saveOrUpdateSector() {
 		if (StringUtils.isNotBlank(this.getSectorName()) || StringUtils.isNotBlank(this.getSectorNameArabic())) {
 			sectorService.saveOrUpdateSector(getExistingSector(), this.getSectorName(), this.getSectorNameArabic(),

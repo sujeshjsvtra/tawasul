@@ -32,7 +32,6 @@ public class SectorService implements Serializable {
 
 	private List<Sector> sectors;
 
-	//@ManagedProperty(value="#{session}")
 	private Session session;
 
 	//@ManagedProperty(value="#{hibernateUtil}")
@@ -54,6 +53,38 @@ public class SectorService implements Serializable {
 		setSectors(sectors);
 		session.close();
 		return sectors;
+	}
+
+	public List<Sector> fetchSectors(String name, Long id) {
+		Query query = null;
+		List<Sector> sectors = null;
+
+		session = hibernateUtil.getSessionFactory().openSession();
+
+		if (name != null) {
+			query = session.createQuery("from Sector where name=:name");
+			query.setParameter("name", name);
+		}
+		if (id != null) {
+			query = session.createQuery("from Sector where id=:id");
+			query.setParameter("id", id);
+		}
+
+		if (query.list() != null) {
+			sectors = query.list();
+		}
+
+		session.close();
+		return sectors;
+	}
+
+	public Sector fetchSectorById(Long id) {
+		session = hibernateUtil.getSessionFactory().openSession();
+
+		Sector sector = session.get(Sector.class, id);
+
+		session.close();
+		return sector;
 	}
 
 	public void saveOrUpdateSector(Sector existingSector, String sectorName, String sectorNameArabic, String status) {
@@ -89,13 +120,4 @@ public class SectorService implements Serializable {
 		session.close();
 	}
 
-	public Sector fetchSectorById(Long id) {
-		session = hibernateUtil.getSessionFactory().openSession();
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-
-		Sector sector = session.get(Sector.class, id);
-
-		session.close();
-		return sector;
-	}
 }
