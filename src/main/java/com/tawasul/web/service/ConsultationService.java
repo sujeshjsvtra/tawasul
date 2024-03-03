@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.query.Query;
 
 @ApplicationScoped
 @Named
@@ -49,11 +50,10 @@ public class ConsultationService implements Serializable {
 
 	public List<Consultation> populateConsultations() {
 		session = hibernateUtil.getSessionFactory().openSession();
-		CriteriaBuilder builder = session.getCriteriaBuilder();
 
-		CriteriaQuery<Consultation> criteria = builder.createQuery(Consultation.class);
-		criteria.from(Consultation.class);
-		List<Consultation> consultations = session.createQuery(criteria).getResultList();
+		Query query = session.createQuery( "from Consultation where status <> :status");
+		query.setParameter( "status", "D" );
+		List<Consultation> consultations = query.list();
 
 		setConsultations(consultations);
 		session.close();
@@ -98,9 +98,11 @@ public class ConsultationService implements Serializable {
 
 	public void deleteConsultation(Consultation consultation) {
 		session = hibernateUtil.getSessionFactory().openSession();
-
+		session.beginTransaction();
 		consultation.setStatus("D");
-		session.saveOrUpdate(consultation);
+
+		System.out.println("Delete consultation: " + consultation);
+		session.update(consultation);
 		session.getTransaction().commit();
 		session.close();
 	}
