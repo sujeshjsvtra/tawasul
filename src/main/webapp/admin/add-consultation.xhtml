@@ -14,13 +14,13 @@
 
 		<ui:define name="content">
 			<p:growl id="growl" sticky="false" showDetail="true" life="2000" />
-			<h:form>
-				<ui:fragment rendered="#{sectorBean.editMode}">
+			<h:form id="consultations" enctype="multipart/form-data">
+				<ui:fragment rendered="#{consultationBean.editMode}">
 			<div class="header">
 				<h3 class="">Edit Consultation</h3>
 			</div>
 				</ui:fragment>
-				<ui:fragment rendered="!#{sectorBean.editMode}">
+				<ui:fragment rendered="!#{consultationBean.editMode}">
 					<div class="header">
 						<h3 class="">Add Consultation</h3>
 					</div>
