@@ -53,7 +53,7 @@ public class SectorBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("Post construct called at " + LocalDateTime.now());
+		System.out.println("Sector Bean Post construct called at " + LocalDateTime.now());
 		sectorService = new SectorService();
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
