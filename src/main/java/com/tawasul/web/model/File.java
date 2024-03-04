@@ -16,7 +16,8 @@ import lombok.Setter;
 public class File {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "file_seq")
+	@SequenceGenerator(name = "file_seq", sequenceName = "file_seq", allocationSize = 1)
 	private Long id;
 
 	private String name;
@@ -24,6 +25,8 @@ public class File {
 	private String url;
 
 	private String type;
+
+	private String module;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
