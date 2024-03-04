@@ -1,6 +1,7 @@
 package com.tawasul.web.beans;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +15,9 @@ import com.tawasul.web.util.SystemConstants;
 
 @Named("pageRedirect")
 @SessionScoped
-public class PageRedirect {
+public class PageRedirect implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String activeMenu = "";
 	private String defaultLabel = SystemConstants.LABEL_DASHBOARD;
@@ -72,6 +75,17 @@ public class PageRedirect {
 		ExternalContext externalContext = facesContext.getExternalContext();
 		try {
 			externalContext.redirect(page); // Specify the target page here
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void redirectToRelativePage(String page) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = facesContext.getExternalContext();
+
+		try {
+			externalContext.redirect(externalContext.getRequestContextPath() + "/" + page);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -48,6 +48,9 @@ public class SectorBean implements Serializable {
 	@Inject
 	private SectorService sectorService;
 
+	@Inject
+	private PageRedirect pageRedirect;
+
 	@PostConstruct
 	public void init() {
 		System.out.println("Post construct called at " + LocalDateTime.now());
@@ -57,6 +60,7 @@ public class SectorBean implements Serializable {
 				.getRequest();
 
 		String parameterId = request.getParameter("id");
+		pageRedirect = new PageRedirect();
 		if (StringUtils.isNotBlank(parameterId)) {
 			existingSector = new Sector();
 			setExistingSector(loadExistingSector(parameterId));
@@ -120,11 +124,14 @@ public class SectorBean implements Serializable {
 
 	public Sector loadExistingSector(String id) {
 		sector = sectorService.fetchSectorById(Long.parseLong(id));
-
-		setSectorName(sector.getName());
-		setSectorNameArabic(sector.getArabicName());
-		setStatus(sector.getStatus());
-
-		return sector;
+		if (sector != null) {
+			setSectorName(sector.getName());
+			setSectorNameArabic(sector.getArabicName());
+			setStatus(sector.getStatus());
+			return sector;
+		} else {
+			pageRedirect.redirectToRelativePage("faces/error.xhtml" + "?faces-redirect=true");
+		}
+		return null;
 	}
 }
