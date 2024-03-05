@@ -5,19 +5,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.transaction.Transactional;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import com.tawasul.web.model.Consultation;
 import com.tawasul.web.model.File;
-import org.hibernate.Session;
-
 import com.tawasul.web.model.Sector;
 import com.tawasul.web.util.HibernateUtil;
 
@@ -25,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.query.Query;
 
 @Named
 @Getter
@@ -65,6 +60,7 @@ public class ConsultationService implements Serializable {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 
 		Consultation consultation = session.get(Consultation.class, id);
+		//Hibernate.initialize(consultation.getSurveys());
 
 		session.close();
 		return consultation;
