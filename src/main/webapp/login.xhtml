@@ -1,47 +1,154 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<!-- <p:growl id="growl" sticky="true" showDetail="true" life="3000" /> -->
+
+</h:head>
 <h:body>
 
-	<ui:composition template="/WEB-INF/templates/common.xhtml">
-		<ui:define name="content">
-		 
-			<div class="fluid topbar">
-				<div class="date_time">
-					<span> Welcome to</span> <span
-						style="color: #CE3231; font-weight: bold;"> Build Bahrain</span>
+	<h:outputStylesheet library="css" name="light/loader.css" />
+	<h:outputStylesheet library="css" name="dark/loader.css" />
+	<h:outputStylesheet library="css" name="admin.css" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-				</div>
+	<h:form id="adminLoginForm">
+		
+		<div id="blockUI"></div>
+		<div id="loader"></div>
+		<div class="auth-container d-flex">
 
-				<div class="eKeyLogin">
-				  <h:form id="loginform">
-					<h:graphicImage library="images" name="ekeyLogoForHeader.png" />
-					
-					<p:inputText placeholder="ID Number" title="ID Number" autocomplete="false"
-					value="#{loginManagedBean.loginModel.userName}" />
-					&nbsp;
-					<p:password placeholder="Password"  title="Password" autocomplete="false"
-					 value="#{loginManagedBean.loginModel.password}" />  
-					 
-				    <h:commandButton  value="Login" action="#{loginManagedBean.adminLogin()}" onclick="PF('buiBasic').show();" />		
-					 
-					<div class="eKeyButtons">
-						<a href="user-registration.html">Register</a> | <a href="#">Forgot
-							Password</a>
+			<div class="container mx-auto align-self-center">
+
+				<div class="row">
+
+					<div
+						class="col-xxl-4 col-xl-5 col-lg-5 col-md-8 col-12 d-flex flex-column align-self-center mx-auto">
+						<div class="text-center">
+							<h:graphicImage library="images" name="logo.png" />
+						</div>
+						<div class="card mt-3 mb-3 dark_bg">
+							<div class="card-body">
+
+								<div class="row">
+									<div class="col-md-12 mb-3 text-center">
+
+										<h2>Sign In</h2>
+										<p>Enter your email and password to login</p>
+
+									</div>
+
+
+									<div class="col-md-12 mb-3 "></div>
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label">Email</label>
+											<p:inputText class="form-control"
+												value="#{loginManagedBean.loginModel.userName}"
+												autocomplete="off" />
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="mb-4">
+											<label class="form-label">Password</label>
+											<p:password class="form-control"
+												value="#{loginManagedBean.loginModel.password}" />
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="mb-3">
+											<div class="form-check form-check-primary form-check-inline">
+												<input class="form-check-input me-3" type="checkbox"
+													id="form-check-default"></input> <label
+													class="form-check-label" for="form-check-default">
+													Remember me </label>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-12">
+										<div class="mb-4 signinbtn">
+											<p:commandButton value=" SIGN IN "
+												styleClass="ui-button-danger"
+												action="#{loginManagedBean.adminLogin}"
+												onclick="showBlockUI();" oncomplete="hideBlockUI()" update="growl" />
+										</div>
+									</div>
+
+									<div class="col-12">
+										<div class="text-center">
+											<p class="mb-0">
+												<p:commandLink id="resetPassword"  
+													action="#{loginManagedBean.resetPassword}"
+													class="mr-4" value="Reset Password" update="growl"  />
+											</p>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
 					</div>
-					</h:form>
-				</div>
 
+				</div>
 
 			</div>
-		</ui:define>
-	</ui:composition>
-</h:body>
 
+		</div>
+		
+
+	</h:form>
+	<h:form id="otpForm">
+		<p:dialog header="Reset Password" widgetVar="dlg2" minHeight="40"
+			width="350" showEffect="fade" modal="true">
+			<div class="row">
+				<div class="col-md-12 pull-ceneter">
+					<h6>Enter 6 digit OTP here</h6>
+				</div>
+				<div class="col-md-12">
+					<p:inputText styleClass="full-width"   required="true"
+						requiredMessage="OTP is required"
+						value="#{loginManagedBean.loginModel.oneTimePassword}"
+						placeholder="6 digit OTP" id="otp" />
+				</div>
+
+			</div>
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-md-6">
+					<p:commandButton id="buttonID" value="Submit" styleClass="ui-button-danger" update="growl otp" 
+					actionListener="#{loginManagedBean.validateOTP}" />
+				</div>
+				<div class="col-md-6 pull-right-middle">
+					<p:commandLink id="resendLink" immediate="true" class="mr-4"
+						value="Resend again" />
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-md-12">*The OTP will send to your registered
+					e-mail address</div>
+			</div>
+		</p:dialog>
+	</h:form>
+	<script language="javascript">
+		function showBlockUI() {
+			document.getElementById('loader').style.display = 'block';
+			document.getElementById('blockUI').style.display = 'block';
+		}
+		function hideBlockUI() {
+			document.getElementById('loader').style.display = 'none';
+			document.getElementById('blockUI').style.display = 'none';
+		}
+	</script>
+
+
+</h:body>
 </html>
