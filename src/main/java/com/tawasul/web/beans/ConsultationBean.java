@@ -11,10 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -75,6 +72,7 @@ public class ConsultationBean implements Serializable {
 	private File existingFile;
 	private String placeholderImage;
 	private Date today;
+	private String[] sectorsToFilterConsultations;
 
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("application-local");
 	private Long fileSizeInBytes;
@@ -125,7 +123,26 @@ public class ConsultationBean implements Serializable {
 		setSectorList(sectorService.populateSectors());
 		setStatus(StatusEnum.OPEN.getStatus());
 		sectorDropdown = getSectorList().stream()
-				.collect(Collectors.toMap(sector -> sector.getName() + " | " + sector.getArabicName(), Sector::getId));
+				//
+				.collect(Collectors.toMap(sector -> sector.getName(), Sector::getId));
+	}
+
+
+	public void selectSectors() {
+		List<String> sectorsList = Arrays.stream(getSectorsToFilterConsultations()).distinct()
+				.collect(Collectors.toList());
+
+		System.out.println("Distinct sectors  " + sectorsList);
+
+		if (!sectorsList.isEmpty()) {
+			List<Consultation> filteredConsultations = getConsultations().stream()
+					.filter(consultation -> sectorsList.contains(String.valueOf(consultation.getSector().getId())))
+					.collect(Collectors.toList());
+			setConsultations(filteredConsultations);
+			System.out.println("Filtered consultations: " + filteredConsultations);
+		} else {
+			setConsultations(consultationService.populateConsultations());
+		}
 	}
 
 	public void resetConsultationForm() {
@@ -196,7 +213,10 @@ public class ConsultationBean implements Serializable {
 
 	public String convertDate(LocalDate localDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		return localDate.format(formatter);
+		if(localDate!=null) {
+			return localDate.format(formatter);
+		}
+		return "";
 	}
 
 	// View / Edit / Delete Consultation

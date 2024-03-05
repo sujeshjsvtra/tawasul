@@ -22,8 +22,17 @@
                     </div>
 
                 </div>
-            </h:form>
-            <p:dataTable id="consultations-table" styleClass="custom-datatable" var="con" rowKey="#{con.id}"
+
+            <div class="input-field mb-3">
+                <p:selectCheckboxMenu onchange="PF('consultations-table').filter()" id="sectors-checkbox-menu" value="#{consultationBean.sectorsToFilterConsultations}"
+                                      label="Sectors" multiple="true"
+                                      filter="true" filterMatchMode="contains" panelStyle="width:250px">
+                    <p:ajax event="change" listener="#{consultationBean.selectSectors}" update="consultations"/>
+                    <f:selectItems value="#{consultationBean.sectorsToFilterConsultations}" />
+                    <f:selectItems value="#{consultationBean.sectorDropdown}" />
+                </p:selectCheckboxMenu>
+            </div>
+            <p:dataTable id="consultations" widgetVar="consultations-table" styleClass="custom-datatable" var="con" rowKey="#{con.id}"
                          rowIndexVar="index" sortBy="#{con.createdAt}"
                          value="#{consultationBean.consultations}"
                          paginatorPosition="bottom"
@@ -49,7 +58,7 @@
                     <h:outputText value="#{con.description}"/>
                 </p:column>
 
-                <p:column headerText="Sector">
+                <p:column headerText="Sector" filterBy="#{consultationBean.fetchSectorName(con)}" filterMatchMode="contains">
                     <h:outputText value="#{consultationBean.fetchSectorName(con)}"/>
                 </p:column>
 
@@ -77,10 +86,10 @@
                 </p:column>
 
                 <p:column headerText="Delete">
-                    <p:commandButton class="btn" value="Delete" action="#{consultationBean.deleteConsultation(con)}" update="growl,consultations-table" />
+                    <p:commandButton class="btn" value="Delete" action="#{consultationBean.deleteConsultation(con)}" update="growl,consultations" />
                 </p:column>
-
             </p:dataTable>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>
