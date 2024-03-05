@@ -73,12 +73,7 @@ public class SectorBean implements Serializable {
 		setStatus(StatusEnum.OPEN.getStatus());
 	}
 
-	@PreDestroy
-	public void preDestory() {
-	}
-	
-	public void validateUnique()
-	{
+	public void validateUnique() {
 		if (getSectorName() != null) {
 			System.out.println("Sector Name: " + getSectorName());
 			List<Sector> sectors = sectorService.fetchSectors(getSectorName(), null);
