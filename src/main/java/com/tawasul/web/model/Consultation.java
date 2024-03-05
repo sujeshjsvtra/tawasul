@@ -45,14 +45,11 @@ public class Consultation {
 	@OneToOne
 	private Sector sector;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinTable(
-			name = "consultation_survey",
-			joinColumns = @JoinColumn(name = "consultation_id"),
-			inverseJoinColumns = @JoinColumn(name = "survey_id")
-	)
+	@OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JoinTable(name = "consultation_survey", joinColumns = @JoinColumn(name = "consultation_id"), inverseJoinColumns = @JoinColumn(name = "surveys_id"))
+	//@JoinColumn(name = "consultation_id", referencedColumnName = "consultation_id") // Specify the referenced column
 	@ToString.Exclude
-	private Set<Survey> survey= new HashSet<>();
+	private Set<Survey> surveys = new HashSet<>();
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

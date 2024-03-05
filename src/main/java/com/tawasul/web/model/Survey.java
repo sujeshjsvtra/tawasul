@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Setter
 @ToString
 @Entity
+@EqualsAndHashCode
 public class Survey {
 
 	@Id
@@ -51,8 +53,8 @@ public class Survey {
 
 	private Integer rating;
 
-	@ManyToOne
-	@JoinColumn(name = "consultation_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "consultation_id", referencedColumnName = "id")
 	private Consultation consultation;
 
 	@OneToMany
