@@ -71,6 +71,7 @@ public class ConsultationBean implements Serializable {
 	private UploadedFile uploadedFile;
 	private String imageUrl;
 	private File existingFile;
+	private String placeholderImage;
 
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("application-local");
 	private Long fileSizeInBytes;
@@ -89,6 +90,8 @@ public class ConsultationBean implements Serializable {
 		System.out.println("Consultation Bean Post construct called: " + LocalDateTime.now());
 		String propertyValue = resourceBundle.getString("file-size-limit");
 		setFileSizeInBytes(Long.parseLong(propertyValue));
+		setPlaceholderImage(resourceBundle.getString("placeholder-image"));
+		
 
 		pageRedirect = new PageRedirect();
 		resetConsultationForm();
@@ -98,11 +101,17 @@ public class ConsultationBean implements Serializable {
 				.getRequest();
 
 		String parameterId = request.getParameter("id");
+
 		if (StringUtils.isNotBlank(parameterId)) {
 			existingConsultation = new Consultation();
 			setExistingConsultation(loadExistingConsultation(parameterId));
 			setEditMode(true);
-			setImageUrl(existingConsultation.getImage().getUrl());
+
+			if (existingConsultation.getImage() != null) {
+				setImageUrl(existingConsultation.getImage().getUrl());
+			} else {
+				setImageUrl(getPlaceholderImage());
+			}
 			setExistingFile(existingConsultation.getImage());
 		}
 
@@ -113,10 +122,6 @@ public class ConsultationBean implements Serializable {
 		setStatus(StatusEnum.OPEN.getStatus());
 		sectorDropdown = getSectorList().stream()
 				.collect(Collectors.toMap(sector -> sector.getName() + " | " + sector.getArabicName(), Sector::getId));
-	}
-
-	@PreDestroy
-	public void preDestory() {
 	}
 
 	public void resetConsultationForm() {
@@ -209,6 +214,15 @@ public class ConsultationBean implements Serializable {
 			return "Invalid";
 		}
 	}
+
+	public boolean isOpen(Consultation consultation) {
+		boolean isOpen = false;
+		if (consultation != null && consultation.getStatus() != null) {
+			isOpen = consultation.getStatus().equals(StatusEnum.OPEN.getStatus()) ? true : false;
+		}
+		return isOpen;
+	}
+
 
 	public Consultation loadExistingConsultation(String id) {
 		consultation = consultationService.fetchConsultationById(Long.parseLong(id));

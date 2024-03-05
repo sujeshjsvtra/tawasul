@@ -13,7 +13,7 @@
             <p:growl id="growl" sticky="false" showDetail="true" life="2000"/>
             <h:form>
                 <div class="row ">
-                    <div class="col-md-6"><h3>View Consultation </h3></div>
+                    <div class="col-md-6"><h3>View Consultations</h3></div>
                     <div class="col-md-6 pull-right">
                         <p:button icon="pi pi-search" style="margin-right:20px;" styleClass="search-button"
                                   title="Search">
@@ -23,15 +23,21 @@
 
                 </div>
             </h:form>
-            <p:dataTable id="consultations-table" styleClass="custom-datatable" var="con" rowKey="#{con.id}" rowIndexVar="index"
-                         value="#{consultationBean.consultations}">
+            <p:dataTable id="consultations-table" styleClass="custom-datatable" var="con" rowKey="#{con.id}"
+                         rowIndexVar="index" sortBy="#{con.createdAt}"
+                         value="#{consultationBean.consultations}"
+                         paginatorPosition="bottom"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} consultations"
+                         rowsPerPageTemplate="5,10,15">
                 <p:column headerText="Id">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
 
                 <p:column headerText="Image">
-                    <p:graphicImage value="">
-                        <f:param name="custom_id" value="#{index+1}"/>
+                    <p:graphicImage value="#{con.image.url}"  width="50px" height="50px" alt="Image not found" >
+                        <f:param name="image_id" value="#{con.image.id}"/>
                     </p:graphicImage>
                 </p:column>
 
@@ -61,7 +67,8 @@
 
 
                 <p:column headerText="Status">
-                    <h:outputText value="#{consultationBean.fetchStatus(con)}"/>
+<!--                    <h:outputLabel style="background: #CC2B19;width: 100%; color: white;" value="#{consultationBean.fetchStatus(con)}"/>-->
+                    <h:outputLabel styleClass="#{consultationBean.isOpen(con) ? open-status : closed-status}" value="#{consultationBean.fetchStatus(con)}"/>
                 </p:column>
 
                 <p:column headerText="Edit">
