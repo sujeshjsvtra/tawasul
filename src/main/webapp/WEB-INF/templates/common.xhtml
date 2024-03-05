@@ -3,37 +3,48 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 
 
 </h:head>
 <h:body>
-    <h:outputStylesheet library="css" name="style.css"/>
-    <h:outputStylesheet library="css" name="style1.css"/>
-    <h:outputStylesheet library="css" name="bootstrap.min.css"/>
-    <h:outputStylesheet library="css" name="admin-custom.css"/>
-    <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
-     
-    <div id="container">
-    <div >
-        <ui:insert name="header">
-            <ui:include src="/WEB-INF/templates/header.xhtml"/>
-        </ui:insert>
-    </div>
-    <br/>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="style1.css" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="admin-custome.css" />
+	<h:outputStylesheet library="css" name="user.css" />
+	<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+	<div id="blockUI"></div>
+	<div id="loader"></div>
+	<div id="container">
+		<div>
+			<ui:insert name="header">
+				<ui:include src="/WEB-INF/templates/header.xhtml" />
+			</ui:insert>
+		</div>
+		<br />
 
-    <div >
-        <ui:insert name="content">
-            <ui:include src="/WEB-INF/templates/contents.xhtml"/>
-        </ui:insert>
-    </div>
-    <br/>
-    
-</div>
+		<div>
+			<ui:insert name="content">
+				<ui:include src="/WEB-INF/templates/contents.xhtml" />
+			</ui:insert>
+		</div>
+		<br />
 
+	</div>
+	<script language="javascript">
+		function showBlockUI() {
+			document.getElementById('loader').style.display = 'block';
+			document.getElementById('blockUI').style.display = 'block';
+		}
+		function hideBlockUI() {
+			document.getElementById('loader').style.display = 'none';
+			document.getElementById('blockUI').style.display = 'none';
+		}
+	</script>
 </h:body>
 </html>
