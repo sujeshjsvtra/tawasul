@@ -1,0 +1,150 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+
+	<ui:composition template="/WEB-INF/templates/common.xhtml">
+
+		<ui:define name="content">
+			<h:form id="formUserConsultation">
+				<div class="common-pagelayout">
+					<div class="row align-items-center">
+						<div class="col-lg-12" data-aos="zoom-in">
+							<h2 class="titile_h2">
+								<h:graphicImage library="images" styleClass="icon_text01"
+									name="consultation.png" />
+								Consultations
+							</h2>
+							<p>Participating in the following initiatives, known as:
+								Consultations, Voting, and Legal Consultations, will give you
+								the opportunity to contribute your expertise, ideas, and
+								collaborate with the government of Bahrain. Join these
+								initiatives today to help drive positive change and development.</p>
+						</div>
+					</div>
+
+					<br />
+
+					<div class="row">
+						<div class="col-lg-5" data-aos="zoom-in">
+							<p:outputPanel id="consultationType">
+							 
+							<button type="button"
+								class="button rounded-border #{userConsultationBean.type==2?'active-rounded':''}"
+								onclick="userConsultationsViewCommand([{name: 'type', value: '2'}]);"
+								value="All">All</button>
+							<button type="button" class="button rounded-border #{userConsultationBean.type==1?'active-rounded':''}"
+								onclick="userConsultationsViewCommand([{name: 'type', value: '1'}]);">
+								<span class="span_box1"> <span class="open_span"></span>
+									Open <span class="hide_mob">Consultations</span>
+								</span>
+							</button>
+							<button type="button" class="button rounded-border #{userConsultationBean.type==0?'active-rounded':''}"
+								onclick="userConsultationsViewCommand([{name: 'type', value: '0'}]);">
+								<span class="span_box2" data-filter="closed-cha"> <span
+									class="closed_span"></span> Closed <span class="hide_mob">Consultations</span>
+								</span>
+							</button>
+							</p:outputPanel>
+						</div>
+						<div class="col-lg-7 boxmob_filter" data-aos="zoom-in">
+							<div class="row align-items-center">
+								<div class="col-md-2 text-align-right">
+									<span>Filter : </span>
+								</div>
+								<div class="col-4 col-05 col-md-3">
+									
+									 <p:selectOneMenu id="city" value="#{userConsultationBean.sectorId}"  >
+					                    <f:selectItem itemLabel="Select Sector" itemValue=""/>
+					                    <f:selectItems value="#{userConsultationBean.sectorMaps}"/>
+					                </p:selectOneMenu>
+									
+								</div>
+								<div class="col-6 col-005 col-md-5">
+									<form id="form" name="form" class="form-inline">
+										<div class="form-group">
+											<div class="date_range">
+												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+												<p:datePicker id="range" selectionMode="range"  showIcon="true" 
+												value="#{userConsultationBean.range}" readonlyInput="true"
+												 />
+											</div>
+										</div>
+									</form>
+
+								</div>
+								<div class="col-2 col-02 col-md-2 text-align-right">
+									<button type="button" onclick="searchByParam()" class="btn btn-search search-btn-rounded">
+										<span>Search</span> <i class="fa fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p:outputPanel deferred="true" id="cardGroup"
+						deferredMode="visible">
+						<div class="row" id="pcard">
+
+							<p:repeat var="consultation" id="repeate"
+								value="#{userConsultationBean.consultations}">
+								<h:panelGroup >
+								<div class="col-lg-4 col-md-6 element-item open-cha"
+									data-category="open-cha" style="display: block;" 
+									onclick="redirectToSurvey([{name: 'id', value: #{consultation.id}}])">
+									<div class="themes_box " data-aos="zoom-in">
+										<a class="themes_image" href="#"> <img
+											src="https://websites.demoatcrayotech.com/tawasul-2-consultations/images/education7.jpg"
+											width="100%" /> <h:panelGroup
+												rendered="#{consultation.status eq 'O'}">
+												<span class="span_box01"><span class="open_span"></span>
+													Open </span>
+											</h:panelGroup> <h:panelGroup rendered="#{consultation.status eq 'C'}">
+												<span class="span_box01"> <span class="closed_span"></span>
+													Closed
+												</span>
+											</h:panelGroup>
+
+										</a>
+										<div class="themes_content ">
+											<a href="#">
+												<h4>#{consultation.name}</h4>
+											</a> <span class="date_se"> <i
+												class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+												<h:outputText value="#{userConsultationBean.formatDate(consultation.startDate)}" /> - 
+												<h:outputText value="#{userConsultationBean.formatDate(consultation.endDate)}" />
+											</span>
+										</div>
+									</div>
+								</div>
+								</h:panelGroup>
+							</p:repeat>
+
+						</div>
+					</p:outputPanel>
+				</div>
+				<p:remoteCommand name="userConsultationsViewCommand"
+					id="userRemoteConsultations" onstart="showBlockUI();"
+					onsuccess="hideBlockUI();"
+					actionListener="#{userConsultationBean.sampleTest}"
+					update="cardGroup consultationType"></p:remoteCommand>
+				<p:remoteCommand name="searchByParam"
+					id="userRemoteSearchFilter" onstart="showBlockUI();"
+					onsuccess="hideBlockUI();" 
+					update="cardGroup growl" actionListener="#{userConsultationBean.filterSeacrhConsultation}"></p:remoteCommand>	
+				<p:remoteCommand name="redirectToSurvey"
+					id="userRemoteRedirect" onstart="showBlockUI();"
+					onsuccess="hideBlockUI();"  
+					update="cardGroup growl" actionListener="#{userConsultationBean.redirectToSureveyPage}"></p:remoteCommand>
+					
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

@@ -1,6 +1,8 @@
 package com.tawasul.web.beans;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -14,45 +16,47 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.PrimeFaces;
 
 import com.tawasul.web.model.LoginModel;
 import com.tawasul.web.model.User;
 import com.tawasul.web.service.impl.AuthenticationServiceImpl;
+import com.tawasul.web.util.DialogueUtil;
+import com.tawasul.web.util.EmailUtil;
 import com.tawasul.web.util.MessageUtil;
+import com.tawasul.web.util.SystemUtil;
 
 @ManagedBean(name = "loginManagedBean")
 @SessionScoped
 public class LoginManagedBean {
-	 private boolean showOverlay = false;
+	private boolean showOverlay = false;
 	private LoginModel loginModel;
-	
-	@ManagedProperty(value="#{authenticationServiceImpl}")
+
+	@ManagedProperty(value = "#{authenticationServiceImpl}")
 	private AuthenticationServiceImpl authenticationServiceImpl;
 
 	@PostConstruct
 	public void init() {
 		loginModel = new LoginModel();
-		 
-	}
 
- 
+	}
 
 	public String adminLogin() {
 		if (validateUser()) {
 			try {
-				 User user = authenticationServiceImpl.login(getLoginModel());
-				 if(user!=null) {
-					  showOverlay = false;
-					 return "admin-dashboard?faces-redirect=true";
-				 }
-				 MessageUtil.info(" Invalid credentials");
+				User user = authenticationServiceImpl.login(getLoginModel());
+				if (user != null) {
+					showOverlay = false;
+					return "admin-dashboard?faces-redirect=true";
+				}
+				MessageUtil.info(" Invalid credentials");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
-			
+
 		return null;
 	}
 
@@ -63,29 +67,52 @@ public class LoginManagedBean {
 		if (StringUtils.isEmpty(getLoginModel().getUserName())) {
 			MessageUtil.info(" Email cannot be an empty");
 			result = false;
-		}else if(!isValidEmail()) {
+		} else if (!isValidEmail()) {
 			MessageUtil.error(" Invalid email address");
 			result = false;
-		}else if(StringUtils.isEmpty(getLoginModel().getPassword())) {
+		} else if (StringUtils.isEmpty(getLoginModel().getPassword())) {
 			MessageUtil.info(" Password cannot be an empty");
-			result = false; 
+			result = false;
 		}
 
 //		context.addMessage(null, message);
 		return result;
 	}
- 
-	
+
 	private boolean isValidEmail() {
 		boolean result = true;
 		try {
-		InternetAddress emailAddr = new InternetAddress(getLoginModel().getUserName());
-		emailAddr.validate();
+			InternetAddress emailAddr = new InternetAddress(getLoginModel().getUserName());
+			emailAddr.validate();
 		} catch (AddressException ex) {
-		result = false;
+			result = false;
 		}
 		return result;
 	}
+
+	public void resetPassword() {
+		System.out.println(getLoginModel().getUserName());
+		if (isValidEmail()) {
+			String otp =SystemUtil.generateOtp(8);
+			Map<String,String> payload = new HashMap<String,String>();
+			payload.put("otp", otp);
+			if(EmailUtil.sendOtp(payload)) {
+				authenticationServiceImpl.saveOtp(getLoginModel().getUserName(), otp);
+				DialogueUtil.showDialog("dlg2");
+				MessageUtil.info(" OTP Successfully send ");
+			}
+			
+			
+		} else
+			MessageUtil.info(" Please provide a valid email address ");
+
+		// resetPassword
+	}
+	
+	public void validateOTP() {
+		MessageUtil.error("Invalid otp");
+	}
+	
 
 	public LoginModel getLoginModel() {
 		return loginModel;
@@ -95,30 +122,20 @@ public class LoginManagedBean {
 		this.loginModel = loginModel;
 	}
 
-
-
 	public AuthenticationServiceImpl getAuthenticationServiceImpl() {
 		return authenticationServiceImpl;
 	}
-
-
 
 	public void setAuthenticationServiceImpl(AuthenticationServiceImpl authenticationServiceImpl) {
 		this.authenticationServiceImpl = authenticationServiceImpl;
 	}
 
-
-
 	public boolean isShowOverlay() {
 		return showOverlay;
 	}
 
-
-
 	public void setShowOverlay(boolean showOverlay) {
 		this.showOverlay = showOverlay;
 	}
-	
-	
 
 }
