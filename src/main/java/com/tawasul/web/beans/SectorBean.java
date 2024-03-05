@@ -84,7 +84,7 @@ public class SectorBean implements Serializable {
 			}
 		}
 	}
-	
+
 	public String saveOrUpdateSector() {
 		if (StringUtils.isNotBlank(this.getSectorName()) || StringUtils.isNotBlank(this.getSectorNameArabic())) {
 			sectorService.saveOrUpdateSector(getExistingSector(), this.getSectorName(), this.getSectorNameArabic(),
