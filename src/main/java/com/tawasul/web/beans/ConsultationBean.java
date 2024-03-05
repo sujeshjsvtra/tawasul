@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.shaded.commons.io.FilenameUtils;
 
@@ -72,6 +74,7 @@ public class ConsultationBean implements Serializable {
 	private String imageUrl;
 	private File existingFile;
 	private String placeholderImage;
+	private Date today;
 
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("application-local");
 	private Long fileSizeInBytes;
@@ -88,6 +91,7 @@ public class ConsultationBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		System.out.println("Consultation Bean Post construct called: " + LocalDateTime.now());
+		setToday(new Date());
 		String propertyValue = resourceBundle.getString("file-size-limit");
 		setFileSizeInBytes(Long.parseLong(propertyValue));
 		setPlaceholderImage(resourceBundle.getString("placeholder-image"));
@@ -235,6 +239,18 @@ public class ConsultationBean implements Serializable {
 		setSelectedSector(consultation.getSector().getId().toString());
 
 		return consultation;
+	}
+
+	public void validateDates() {
+		System.out.println("Date Validation");
+		System.out.println("start date: "+getStartDate());
+		System.out.println("end date : "+getEndDate());
+
+		if (getStartDate() != null && getEndDate() != null && getStartDate().isAfter(getEndDate()) && getEndDate().isBefore(getStartDate()))  {
+			MessageUtil.error("Start Date must be before End Date");
+			setStartDate(LocalDate.now());
+			setEndDate(LocalDate.now());
+		}
 	}
 
 	@Transactional
