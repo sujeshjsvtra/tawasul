@@ -16,8 +16,8 @@ public class SystemConstants {
 	public static final String DASHBOARD_MENU="admin-dashboard";
 	public static final String VIEW_SECTOR_MENU="view-sector";
 	public static final String ADD_SECTOR_MENU="add-sector";
-	public static final String VIEW_CONSULTATIONS_MENU="view-consultations";
-	public static final String ADD_CONSULTATIONS_MENU="add-consultations";
+	public static final String VIEW_CONSULTATIONS_MENU="view-consultation";
+	public static final String ADD_CONSULTATIONS_MENU="add-consultation";
 	public static final String VIEW_INITIATIVES_MENU="initiatives";
 	
 	public static final String LABEL_DASHBOARD="Dashboard";
