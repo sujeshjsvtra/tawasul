@@ -537,3 +537,13 @@ a {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.open-status {
+	background: #CC2B19; !important;
+	color: white; !important;
+}
+
+.closed-status {
+	background: #00AA55; !important;
+	color: white; !important;
+}
