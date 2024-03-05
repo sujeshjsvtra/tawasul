@@ -1,11 +1,19 @@
 package com.tawasul.web.beans;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -18,8 +26,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
+import org.primefaces.shaded.commons.io.FilenameUtils;
 
 import com.tawasul.web.model.Consultation;
+import com.tawasul.web.model.File;
 import com.tawasul.web.model.Sector;
 import com.tawasul.web.service.ConsultationService;
 import com.tawasul.web.service.SectorService;
@@ -45,7 +57,7 @@ public class ConsultationBean implements Serializable {
 	private Consultation existingConsultation;
 	private boolean editMode;
 
-	//Input fields
+	// Input fields
 	private String consultationName;
 	private String consultationTopic;
 	private String consultationDescription;
@@ -56,6 +68,12 @@ public class ConsultationBean implements Serializable {
 	private Map<String, Long> sectorDropdown;
 	private String selectedSector;
 	private String status;
+	private UploadedFile uploadedFile;
+	private String imageUrl;
+	private File existingFile;
+
+	ResourceBundle resourceBundle = ResourceBundle.getBundle("application-local");
+	private Long fileSizeInBytes;
 
 	@Inject
 	private ConsultationService consultationService;
@@ -68,7 +86,9 @@ public class ConsultationBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("Post construct called: " + LocalDateTime.now());
+		System.out.println("Consultation Bean Post construct called: " + LocalDateTime.now());
+		String propertyValue = resourceBundle.getString("file-size-limit");
+		setFileSizeInBytes(Long.parseLong(propertyValue));
 
 		pageRedirect = new PageRedirect();
 		resetConsultationForm();
@@ -82,6 +102,8 @@ public class ConsultationBean implements Serializable {
 			existingConsultation = new Consultation();
 			setExistingConsultation(loadExistingConsultation(parameterId));
 			setEditMode(true);
+			setImageUrl(existingConsultation.getImage().getUrl());
+			setExistingFile(existingConsultation.getImage());
 		}
 
 		setConsultations(consultationService.populateConsultations());
@@ -89,7 +111,12 @@ public class ConsultationBean implements Serializable {
 		sectorService = new SectorService();
 		setSectorList(sectorService.populateSectors());
 		setStatus(StatusEnum.OPEN.getStatus());
-		sectorDropdown = getSectorList().stream().collect(Collectors.toMap(Sector::getName, Sector::getId));
+		sectorDropdown = getSectorList().stream()
+				.collect(Collectors.toMap(sector -> sector.getName() + " | " + sector.getArabicName(), Sector::getId));
+	}
+
+	@PreDestroy
+	public void preDestory() {
 	}
 
 	public void resetConsultationForm() {
@@ -101,16 +128,43 @@ public class ConsultationBean implements Serializable {
 		setSelectedSector("");
 	}
 
-	@PreDestroy
-	public void preDestory() {
+	public void handleFileUpload(FileUploadEvent event) throws IOException {
+		MessageUtil.info("File uploaded");
+		setUploadedFile(event.getFile());
+	}
+
+	public File saveFile() {
+		File fileToSave = null;
+
+		if (getUploadedFile() != null) {
+			String fileName = getUploadedFile().getFileName();
+			String baseName = FilenameUtils.getBaseName(getUploadedFile().getFileName());
+			String extension = FilenameUtils.getExtension(getUploadedFile().getFileName());
+
+			if (getExistingFile() != null) {
+				fileToSave = getExistingFile();
+			} else {
+				fileToSave = new File();
+			}
+
+			fileToSave.setName(baseName);
+			fileToSave.setType(extension);
+			fileToSave.setStatus("A");
+			fileToSave.setUrl(fileName);
+			fileToSave.setModule(SystemConstants.CONSULTATION_MODULE_NAME);
+			consultationService.saveOrUpdateFile(fileToSave);
+
+		}
+		return fileToSave;
 	}
 
 	public String saveOrUpdateConsultation() {
 		if (StringUtils.isNotBlank(this.getConsultationName())) {
+			File imageToSave = saveFile();
 
-			System.out.println("Existing consultation : " +this.getExistingConsultation());
-			consultationService.saveOrUpdateConsultation(this.getExistingConsultation(), getConsultationName(), getConsultationTopic(),
-					getConsultationDescription(), getStartDate(), getEndDate(), this.fetchSector(), this.getStatus());
+			consultationService.saveOrUpdateConsultation(this.getExistingConsultation(), getConsultationName(),
+					getConsultationTopic(), getConsultationDescription(), getStartDate(), getEndDate(),
+					this.fetchSector(), imageToSave, this.getStatus());
 
 			resetConsultationForm();
 			if (editMode) {
@@ -127,8 +181,7 @@ public class ConsultationBean implements Serializable {
 	}
 
 	private Sector fetchSector() {
-		return getSectorList().stream()
-				.filter(sector -> getSelectedSector().equals(String.valueOf(sector.getId())))
+		return getSectorList().stream().filter(sector -> getSelectedSector().equals(String.valueOf(sector.getId())))
 				.findFirst().orElse(null);
 	}
 
@@ -159,7 +212,6 @@ public class ConsultationBean implements Serializable {
 
 	public Consultation loadExistingConsultation(String id) {
 		consultation = consultationService.fetchConsultationById(Long.parseLong(id));
-		//System.out.println("Fetched : "+ consultation.toString());
 
 		setConsultationName(consultation.getName());
 		setConsultationTopic(consultation.getTopic());
@@ -173,7 +225,6 @@ public class ConsultationBean implements Serializable {
 
 	@Transactional
 	public void editConsultation(Consultation consultation) {
- 			System.out.println("Edit Consultation: "  + consultation);
 		pageRedirect.redirectToPage(SystemConstants.ADD_CONSULTATIONS_SCREEN + "?id=" + consultation.getId());
 	}
 
@@ -182,6 +233,4 @@ public class ConsultationBean implements Serializable {
 		consultationService.deleteConsultation(consultation);
 		MessageUtil.info("Deleted successfully");
 	}
-
 }
-

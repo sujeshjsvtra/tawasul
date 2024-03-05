@@ -4,16 +4,20 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
     version="2.3">
- 	<application>
-     	   <locale-config>
-     	        <default-locale>en</default-locale>
-     	        <supported-locale>ar</supported-locale>
-     	   </locale-config>
-	   <resource-bundle>
-		<base-name>localize.messages</base-name>
-		<var>msg</var>
-	   </resource-bundle>
-     </application>
+	<application>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>ar</supported-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>localize.messages</base-name>
+			<var>msg</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>application-local</base-name>
+			<var>properties</var>
+		</resource-bundle>
+	</application>
 	<managed-bean>
 		<managed-bean-name>sectorBean</managed-bean-name>
 		<managed-bean-class>com.tawasul.web.beans.SectorBean</managed-bean-class>

@@ -31,6 +31,7 @@ public class SystemConstants {
 	public static final String COMMON_SECTOR_MENU="sector";
 	public static final String COMMON_CONSULTATIONS_MENU="consultations";
 	public static final String COMMON_INITIATIVES_MENU="initiatives";
-	
+
+	public static final String CONSULTATION_MODULE_NAME = "CONSULTATION";
 	
 }

@@ -14,7 +14,7 @@
 
 		<ui:define name="content">
 			<p:growl id="growl" sticky="false" showDetail="true" life="2000" />
-			<h:form id="consultations" enctype="multipart/form-data">
+			<h:form id="form" enctype="multipart/form-data">
 				<ui:fragment rendered="#{consultationBean.editMode}">
 			<div class="header">
 				<h3 class="">Edit Consultation</h3>
@@ -52,11 +52,24 @@
 													class="form-control rtl" value="#{consultationBean.consultationDescription}" />
 											</div>
 										</div>
+										<div class="col-md-12 mt-4">
+											<div class="input-field   mb-3">
+
+												<ui:fragment rendered="#{consultationBean.editMode}">
+													<label>Existing Image</label>
+													<p:graphicImage value="#{consultationBean.imageUrl}"  width="100px" height="100px" alt="Value Image not found" />
+												</ui:fragment>
+												<br></br>
+												<label>Upload Image</label>
+												<p:fileUpload value="#{consultationBean.uploadedFile}" listener="#{consultationBean.handleFileUpload}"  mode="advanced" dragDropSupport="true" ajax="false" auto="true"
+															  multiple="false" update="messages" sizeLimit="#{consultationBean.fileSizeInBytes}" allowTypes="/(\.|\/)(jpe?g|png)$/" />
+												<p:growl id="messages" showDetail="true" />
+											</div>
+										</div>
 
 										<div class="col-md-12 mt-4">
 											<div class="input-field   mb-3">
-												<label>Sector</label>
-
+												<label>Sector *</label>
 												<p:selectOneMenu class="form-control rtl" id="sector" required="true" requiredMessage="Required" value="#{consultationBean.selectedSector}" style="width:150px">
 													<f:selectItem itemLabel="Select Sector" itemValue="" noSelectionOption="true" />
 													<f:selectItems value="#{consultationBean.sectorDropdown}" />

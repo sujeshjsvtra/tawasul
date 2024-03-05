@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
 import com.tawasul.web.model.Consultation;
+import com.tawasul.web.model.File;
 import org.hibernate.Session;
 
 import com.tawasul.web.model.Sector;
@@ -70,7 +71,7 @@ public class ConsultationService implements Serializable {
 	}
 
 	public void saveOrUpdateConsultation(Consultation existingConsultation, String name, String topic,
-			String description, LocalDate startDate, LocalDate endDate, Sector sector, String status) {
+			String description, LocalDate startDate, LocalDate endDate, Sector sector, File file, String status) {
 
 		session = hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -93,8 +94,38 @@ public class ConsultationService implements Serializable {
 		consultation.setStartDate(startDate);
 		consultation.setEndDate(endDate);
 		consultation.setSector(sector);
+		consultation.setImage(file);
 
 		session.saveOrUpdate(consultation);
+
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	public List<File> fetchFiles(String moduleName, Long id, String fileName) {
+		session = hibernateUtil.getSessionFactory().openSession();
+		Query query = null;
+
+		if(moduleName!=null) {
+			query = session.createQuery("from File where module = :moduleName");
+			query.setParameter("moduleName", moduleName);
+		}
+
+		if(moduleName!=null) {
+			query = session.createQuery("from File where id = :id");
+			query.setParameter("id", id);
+		}
+
+		List<File> files = query.list();
+		session.close();
+		return files;
+	}
+
+	public void saveOrUpdateFile(File file) {
+		session = hibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+
+		session.saveOrUpdate(file);
 
 		session.getTransaction().commit();
 		session.close();
