@@ -4,6 +4,7 @@ public class LoginModel {
 
 	private String userName;
 	private String password;
+	private String oneTimePassword;
 
 	public String getUserName() {
 		return userName;
@@ -32,9 +33,18 @@ public class LoginModel {
 		// TODO Auto-generated constructor stub
 	}
 
+	public String getOneTimePassword() {
+		return oneTimePassword;
+	}
+
+	public void setOneTimePassword(String oneTimePassword) {
+		this.oneTimePassword = oneTimePassword;
+	}
+
 	@Override
 	public String toString() {
-		return "LoginModel [userName=" + userName + ", password=" + password + "]";
+		return "LoginModel [userName=" + userName + ", password=" + password + ", oneTimePassword=" + oneTimePassword
+				+ "]";
 	}
 
 }

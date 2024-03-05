@@ -31,5 +31,9 @@ public class SystemConstants {
 	public static final String COMMON_CONSULTATIONS_MENU="consultations";
 	public static final String COMMON_INITIATIVES_MENU="initiatives";
 	
+	public static final int ACTIVE = 1;
+	public static final int IN_ACTIVE = 0;
+	
+	
 	
 }

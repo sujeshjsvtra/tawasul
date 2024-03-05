@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-<!-- <p:growl id="growl" sticky="true" showDetail="true" life="3000" /> -->
+	<!-- <p:growl id="growl" sticky="true" showDetail="true" life="3000" /> -->
 
 </h:head>
 <h:body>
@@ -17,12 +17,12 @@
 	<h:outputStylesheet library="css" name="dark/loader.css" />
 	<h:outputStylesheet library="css" name="admin.css" />
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	
-
-	<h:form>
 <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-<div id="blockUI"></div>
-<div id="loader"></div>
+
+	<h:form id="adminLoginForm">
+		
+		<div id="blockUI"></div>
+		<div id="loader"></div>
 		<div class="auth-container d-flex">
 
 			<div class="container mx-auto align-self-center">
@@ -46,14 +46,11 @@
 									</div>
 
 
-									<div class="col-md-12 mb-3 ">
-
-										 
-									</div>
+									<div class="col-md-12 mb-3 "></div>
 									<div class="col-md-12">
 										<div class="mb-3">
 											<label class="form-label">Email</label>
-											<p:inputText class="form-control"  
+											<p:inputText class="form-control"
 												value="#{loginManagedBean.loginModel.userName}"
 												autocomplete="off" />
 										</div>
@@ -61,7 +58,7 @@
 									<div class="col-12">
 										<div class="mb-4">
 											<label class="form-label">Password</label>
-											<p:password class="form-control" 
+											<p:password class="form-control"
 												value="#{loginManagedBean.loginModel.password}" />
 										</div>
 									</div>
@@ -78,15 +75,19 @@
 
 									<div class="col-12">
 										<div class="mb-4 signinbtn">
-											<p:commandButton value=" SIGN IN " styleClass="ui-button-danger"
-												action="#{loginManagedBean.adminLogin}" onclick="showBlockUI();" oncomplete="hideBlockUI()"  />
+											<p:commandButton value=" SIGN IN "
+												styleClass="ui-button-danger"
+												action="#{loginManagedBean.adminLogin}"
+												onclick="showBlockUI();" oncomplete="hideBlockUI()" update="growl" />
 										</div>
 									</div>
 
 									<div class="col-12">
 										<div class="text-center">
 											<p class="mb-0">
-												<a href="javascript:void(0);"> Forgot Password ?</a>
+												<p:commandLink id="resetPassword"  
+													action="#{loginManagedBean.resetPassword}"
+													class="mr-4" value="Reset Password" update="growl"  />
 											</p>
 										</div>
 									</div>
@@ -102,18 +103,52 @@
 			</div>
 
 		</div>
+		
 
 	</h:form>
- <script language="javascript">
- function showBlockUI(){
-	 document.getElementById('loader').style.display = 'block';
-	  document.getElementById('blockUI').style.display = 'block';
- }
- function hideBlockUI(){
-	 document.getElementById('loader').style.display = 'none';
-	  document.getElementById('blockUI').style.display = 'none';
- }
- </script>
+	<h:form id="otpForm">
+		<p:dialog header="Reset Password" widgetVar="dlg2" minHeight="40"
+			width="350" showEffect="fade" modal="true">
+			<div class="row">
+				<div class="col-md-12 pull-ceneter">
+					<h6>Enter 6 digit OTP here</h6>
+				</div>
+				<div class="col-md-12">
+					<p:inputText styleClass="full-width"   required="true"
+						requiredMessage="OTP is required"
+						value="#{loginManagedBean.loginModel.oneTimePassword}"
+						placeholder="6 digit OTP" id="otp" />
+				</div>
+
+			</div>
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-md-6">
+					<p:commandButton id="buttonID" value="Submit" styleClass="ui-button-danger" update="growl otp" 
+					actionListener="#{loginManagedBean.validateOTP}" />
+				</div>
+				<div class="col-md-6 pull-right-middle">
+					<p:commandLink id="resendLink" immediate="true" class="mr-4"
+						value="Resend again" />
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-md-12">*The OTP will send to your registered
+					e-mail address</div>
+			</div>
+		</p:dialog>
+	</h:form>
+	<script language="javascript">
+		function showBlockUI() {
+			document.getElementById('loader').style.display = 'block';
+			document.getElementById('blockUI').style.display = 'block';
+		}
+		function hideBlockUI() {
+			document.getElementById('loader').style.display = 'none';
+			document.getElementById('blockUI').style.display = 'none';
+		}
+	</script>
+
 
 </h:body>
 </html>
