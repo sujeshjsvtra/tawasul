@@ -53,8 +53,8 @@ public class ConsultationBean implements Serializable {
 	private String consultationTopic;
 	private String consultationDescription;
 	private String sectorName;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private Date startDate;
+	private Date endDate;
 	private List<Sector> sectorList;
 	private Map<String, Long> sectorDropdown;
 	private String selectedSector;
@@ -63,6 +63,8 @@ public class ConsultationBean implements Serializable {
 	private String imageUrl;
 	private File existingFile;
 	private String placeholderImage;
+	private List<Date> dateRange;
+	//Current Date
 	private Date today;
 	private String[] sectorsToFilterConsultations;
 
@@ -82,10 +84,10 @@ public class ConsultationBean implements Serializable {
 	public void init() {
 		System.out.println("Consultation Bean Post construct called: " + LocalDateTime.now());
 		setToday(new Date());
+		setDateRange(new ArrayList<>());
 		String propertyValue = resourceBundle.getString("file-size-limit");
 		setFileSizeInBytes(Long.parseLong(propertyValue));
 		setPlaceholderImage(resourceBundle.getString("placeholder-image"));
-		
 
 		pageRedirect = new PageRedirect();
 		resetConsultationForm();
@@ -115,16 +117,13 @@ public class ConsultationBean implements Serializable {
 		setSectorList(sectorService.populateSectors());
 		setStatus(StatusEnum.OPEN.getStatus());
 		sectorDropdown = getSectorList().stream()
-				//
-				.collect(Collectors.toMap(sector -> sector.getName(), Sector::getId));
+				.collect(Collectors.toMap(sector -> sector.getName() + " | " + sector.getArabicName(), Sector::getId));
 	}
 
 
 	public void selectSectors() {
 		List<String> sectorsList = Arrays.stream(getSectorsToFilterConsultations()).distinct()
 				.collect(Collectors.toList());
-
-		System.out.println("Distinct sectors  " + sectorsList);
 
 		if (!sectorsList.isEmpty()) {
 			List<Consultation> filteredConsultations = getConsultations().stream()
@@ -141,8 +140,7 @@ public class ConsultationBean implements Serializable {
 		setConsultationName("");
 		setConsultationTopic("");
 		setConsultationDescription("");
-		setStartDate(LocalDate.now());
-		setEndDate(LocalDate.now());
+		setDateRange(new ArrayList<>());
 		setSelectedSector("");
 	}
 
@@ -181,15 +179,13 @@ public class ConsultationBean implements Serializable {
 			File imageToSave = saveFile();
 
 			consultationService.saveOrUpdateConsultation(this.getExistingConsultation(), getConsultationName(),
-					getConsultationTopic(), getConsultationDescription(), getStartDate(), getEndDate(),
+					getConsultationTopic(), getConsultationDescription(), getDateRange().get(0),getDateRange().get(1),
 					this.fetchSector(), imageToSave, this.getStatus());
 
 			resetConsultationForm();
 			if (editMode) {
 				MessageUtil.info("Updated successfully");
-				return "view-consultation" + "?faces-redirect=true";
-			} else {
-				MessageUtil.info("Saved successfully");
+				return "view-consultations" + "?faces-redirect=true";
 			}
 			MessageUtil.info("Saved successfully");
 		} else {
@@ -201,14 +197,6 @@ public class ConsultationBean implements Serializable {
 	private Sector fetchSector() {
 		return getSectorList().stream().filter(sector -> getSelectedSector().equals(String.valueOf(sector.getId())))
 				.findFirst().orElse(null);
-	}
-
-	public String convertDate(LocalDate localDate) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		if(localDate!=null) {
-			return localDate.format(formatter);
-		}
-		return "";
 	}
 
 	// View / Edit / Delete Consultation
@@ -246,23 +234,10 @@ public class ConsultationBean implements Serializable {
 		setConsultationName(consultation.getName());
 		setConsultationTopic(consultation.getTopic());
 		setConsultationDescription(consultation.getDescription());
-		setStartDate(consultation.getStartDate());
-		setEndDate(consultation.getEndDate());
+		setDateRange(Arrays.asList(consultation.getStartDate(), consultation.getEndDate()));
 		setSelectedSector(consultation.getSector().getId().toString());
 
 		return consultation;
-	}
-
-	public void validateDates() {
-		System.out.println("Date Validation");
-		System.out.println("start date: "+getStartDate());
-		System.out.println("end date : "+getEndDate());
-
-		if (getStartDate() != null && getEndDate() != null && getStartDate().isAfter(getEndDate()) && getEndDate().isBefore(getStartDate()))  {
-			MessageUtil.error("Start Date must be before End Date");
-			setStartDate(LocalDate.now());
-			setEndDate(LocalDate.now());
-		}
 	}
 
 	@Transactional

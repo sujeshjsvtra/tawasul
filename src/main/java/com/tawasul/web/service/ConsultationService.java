@@ -2,6 +2,7 @@ package com.tawasul.web.service;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -67,7 +68,7 @@ public class ConsultationService implements Serializable {
 	}
 
 	public void saveOrUpdateConsultation(Consultation existingConsultation, String name, String topic,
-			String description, LocalDate startDate, LocalDate endDate, Sector sector, File file, String status) {
+										 String description, Date startDate, Date endDate, Sector sector, File file, String status) {
 
 		session = hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();

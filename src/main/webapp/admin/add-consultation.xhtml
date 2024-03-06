@@ -79,15 +79,14 @@
 
 
 										<div class="col-md-12 mt-4">
-											<div class="input-field   mb-3">
-												<label>Start and End Date</label>
-												<p:datePicker id="startDate" class="form-control rtl" value="#{consultationBean.startDate}" locale="en" monthNavigator="true" yearNavigator="true" pattern="dd-MM-yyyy" mindate="#{consultationBean.today}" >
-													<p:ajax event="dateSelect" update="startDate endDate growl" listener="#{consultationBean.validateDates}" />
-												</p:datePicker>
-
-
-												<p:datePicker id="endDate" class="form-control rtl" value="#{consultationBean.endDate}" locale="en" monthNavigator="true"  yearNavigator="true" pattern="dd-MM-yyyy" mindate="#{consultationBean.today}" >
-													<p:ajax event="dateSelect" update="startDate endDate growl" listener="#{consultationBean.validateDates}" />
+											<div class="date_range">
+												<label>Start and End Date
+												</label>
+												<p:datePicker id="dateRange" selectionMode="range" showIcon="true" style="width:250px"
+															  class="form-control rtl"
+															  value="#{consultationBean.dateRange}"
+															  monthNavigator="true" yearNavigator="true"
+															  pattern="MMM d , yyyy" mindate="#{consultationBean.today}">
 												</p:datePicker>
 											</div>
 										</div>
@@ -113,7 +112,7 @@
 
 										<p:commandButton class="btn" value="Submit" action="#{consultationBean.saveOrUpdateConsultation}" update="growl,@form"/>
 										<p:commandButton class="btn cancel-btn" value="Reset" action="#{consultationBean.resetConsultationForm}" resetValues="true"  update="@form"/>
-										 
+
 									</div>
 								</div>
 								<br />

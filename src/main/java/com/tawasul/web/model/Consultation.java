@@ -33,9 +33,9 @@ public class Consultation {
 
 	private String topic;
 
-	private LocalDate startDate;
+	private Date startDate;
 
-	private LocalDate endDate;
+	private Date endDate;
 
 	private String role;
 

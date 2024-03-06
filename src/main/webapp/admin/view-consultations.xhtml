@@ -63,13 +63,13 @@
                 </p:column>
 
                 <p:column headerText="Start Date">
-                    <h:outputText value="#{consultationBean.convertDate(con.startDate)}">
+                    <h:outputText value="#{con.startDate}">
                         <f:convertDateTime pattern="dd-MM-yyyy"/>
                     </h:outputText>
                 </p:column>
 
                 <p:column headerText="End Date">
-                    <h:outputText value="#{consultationBean.convertDate(con.endDate)}">
+                    <h:outputText value="#{con.endDate}">
                         <f:convertDateTime pattern="dd-MM-yyyy"/>
                     </h:outputText>
                 </p:column>
