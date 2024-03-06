@@ -41,8 +41,8 @@
                                             </div>
                                             <div class="col-md-12 mt-4">
                                                 <div class="input-field mb-3">
-                                                    <label>Sector Name (Arabic)</label>
-                                                    <p:inputText class="form-control rtl" required="false" dir="rtl"
+                                                    <label>Sector Name (Arabic) *</label>
+                                                    <p:inputText class="form-control rtl" required="true" dir="rtl"
                                                                  value="#{sectorBean.sectorNameArabic}" />
                                                 </div>
                                             </div>
@@ -67,6 +67,7 @@
                                         <div class="buttons ">
                                             <p:commandButton class="btn" value="Submit"
                                                              action="#{sectorBean.saveOrUpdateSector}" update="growl,@form"/>
+                                            <br></br>
                                             <p:commandButton class="btn cancel-btn" value="Reset"
                                                              action="#{sectorBean.resetSectorForm}" resetValues="true"
                                                              update="@form"/>
