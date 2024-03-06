@@ -68,7 +68,7 @@ public class ConsultationService implements Serializable {
 	}
 
 	public void saveOrUpdateConsultation(Consultation existingConsultation, String name, String topic,
-										 String description, Date startDate, Date endDate, Sector sector, File file, String status) {
+										 String description, String nameArabic, String topicArabic, String descriptionArabic, Date startDate, Date endDate, Sector sector, File file, String status) {
 
 		session = hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -87,6 +87,9 @@ public class ConsultationService implements Serializable {
 		consultation.setName(name);
 		consultation.setTopic(topic);
 		consultation.setDescription(description);
+		consultation.setNameArabic(nameArabic);
+		consultation.setTopicArabic(topicArabic);
+		consultation.setDescriptionArabic(descriptionArabic);
 		consultation.setStatus(status);
 		consultation.setStartDate(startDate);
 		consultation.setEndDate(endDate);

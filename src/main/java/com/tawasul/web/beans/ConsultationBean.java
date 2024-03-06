@@ -52,6 +52,14 @@ public class ConsultationBean implements Serializable {
 	private String consultationName;
 	private String consultationTopic;
 	private String consultationDescription;
+
+	private String consultationNameArabic;
+	private String consultationTopicArabic;
+	private String consultationDescriptionArabic;
+
+	private boolean englishFieldsRequired;
+	private boolean arabicFieldsRequired;
+
 	private String sectorName;
 	private Date startDate;
 	private Date endDate;
@@ -120,6 +128,19 @@ public class ConsultationBean implements Serializable {
 				.collect(Collectors.toMap(sector -> sector.getName() + " | " + sector.getArabicName(), Sector::getId));
 	}
 
+	public void handleLanguageFieldsValidation() {
+		if (getConsultationName().isEmpty() && getConsultationTopic().isEmpty() && getConsultationDescription().isEmpty())
+		{
+			setArabicFieldsRequired(true);
+		}
+		if (getConsultationNameArabic().isEmpty() && getConsultationTopicArabic().isEmpty() && getConsultationDescriptionArabic().isEmpty())
+		{
+			setEnglishFieldsRequired(true);
+		}
+
+		System.out.println("English fields: " +isEnglishFieldsRequired());
+		System.out.println("Arabic fields: " +isArabicFieldsRequired());
+	}
 
 	public void selectSectors() {
 		List<String> sectorsList = Arrays.stream(getSectorsToFilterConsultations()).distinct()
@@ -140,8 +161,13 @@ public class ConsultationBean implements Serializable {
 		setConsultationName("");
 		setConsultationTopic("");
 		setConsultationDescription("");
+		setConsultationNameArabic("");
+		setConsultationTopicArabic("");
+		setConsultationDescriptionArabic("");
 		setDateRange(new ArrayList<>());
 		setSelectedSector("");
+		setEnglishFieldsRequired(true);
+		setArabicFieldsRequired(true);
 	}
 
 	public void handleFileUpload(FileUploadEvent event) throws IOException {
@@ -175,12 +201,14 @@ public class ConsultationBean implements Serializable {
 	}
 
 	public String saveOrUpdateConsultation() {
+		handleLanguageFieldsValidation();
 		if (StringUtils.isNotBlank(this.getConsultationName())) {
 			File imageToSave = saveFile();
 
 			consultationService.saveOrUpdateConsultation(this.getExistingConsultation(), getConsultationName(),
-					getConsultationTopic(), getConsultationDescription(), getDateRange().get(0),getDateRange().get(1),
-					this.fetchSector(), imageToSave, this.getStatus());
+					getConsultationTopic(), getConsultationDescription(), this.getConsultationNameArabic(),
+					this.getConsultationTopicArabic(), this.getConsultationDescriptionArabic(), getDateRange().get(0),
+					getDateRange().get(1), this.fetchSector(), imageToSave, this.getStatus());
 
 			resetConsultationForm();
 			if (editMode) {
@@ -234,6 +262,9 @@ public class ConsultationBean implements Serializable {
 		setConsultationName(consultation.getName());
 		setConsultationTopic(consultation.getTopic());
 		setConsultationDescription(consultation.getDescription());
+		setConsultationNameArabic(consultation.getNameArabic());
+		setConsultationTopicArabic(consultation.getTopicArabic());
+		setConsultationDescriptionArabic(consultation.getDescriptionArabic());
 		setDateRange(Arrays.asList(consultation.getStartDate(), consultation.getEndDate()));
 		setSelectedSector(consultation.getSector().getId().toString());
 

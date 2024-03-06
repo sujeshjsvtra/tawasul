@@ -23,7 +23,8 @@ import lombok.ToString;
 public class Consultation {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "consultation_seq")
+	@SequenceGenerator(name = "consultation_seq", sequenceName = "consultation_seq", allocationSize = 1)
 	private Long id;
 
 	@Column(unique = true)
@@ -32,6 +33,15 @@ public class Consultation {
 	private String description;
 
 	private String topic;
+
+	@Column(unique = true, name = "name_arabic")
+	private String nameArabic;
+
+	@Column(name = "description_arabic")
+	private String descriptionArabic;
+
+	@Column(name = "topic_arabic")
+	private String topicArabic;
 
 	private Date startDate;
 

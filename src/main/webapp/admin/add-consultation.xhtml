@@ -8,9 +8,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:body>
-
 	<ui:composition template="/WEB-INF/templates/admin-template.xhtml">
-
 
 		<ui:define name="content">
 			<p:growl id="growl" sticky="false" showDetail="true" life="2000" />
@@ -31,37 +29,66 @@
 					<div class="statbox widget box box-shadow">
 						<div class="widget-content widget-content-area">
 							<div class="box_form">
-
+								<!--ENGLISH FIELDS-->
 								<div class="row ">
 									<div class="col-md-8 pwd">
 										<div class="col-md-12 mt-4">
 											<div class="input-field   mb-3">
-												<label>Title</label> <h:inputText  class="form-control" value="#{consultationBean.consultationName}" />
+												<label>Title</label> <h:inputText id="title_english" class="form-control" value="#{consultationBean.consultationName}" required="#{consultationBean.englishFieldsRequired}" requiredMessage="Title is Required">
+											</h:inputText>
 											</div>
 										</div>
 										<div class="col-md-12 mt-4">
 											<div class="input-field   mb-3">
-												<label>Topic</label> <h:inputText
-													class="form-control rtl" value="#{consultationBean.consultationTopic}" />
+												<label>Topic</label> <h:inputText id="topic_english"
+													class="form-control rtl" value="#{consultationBean.consultationTopic}" required="#{consultationBean.englishFieldsRequired}" requiredMessage="Topic is Required">
+											</h:inputText>
 											</div>
 										</div>
 
 										<div class="col-md-12 mt-4">
 											<div class="input-field   mb-3">
-												<label>Description</label> <h:inputTextarea
-													class="form-control rtl" value="#{consultationBean.consultationDescription}" />
+												<label>Description</label> <h:inputTextarea id="description_english"
+													class="form-control rtl" value="#{consultationBean.consultationDescription}" required="#{consultationBean.englishFieldsRequired}" requiredMessage="Description is Required">
+											</h:inputTextarea>
 											</div>
 										</div>
-										<div class="col-md-12 mt-4">
+
+										<!--ARABIC FIELDS-->
+										<div class="col-md-8 pwd">
+											<div class="col-md-12 mt-4">
+												<div class="input-field   mb-3">
+													<label>Title (Arabic)</label> <h:inputText id="title_arabic" dir="RTL" class="form-control" value="#{consultationBean.consultationNameArabic}" required="#{consultationBean.arabicFieldsRequired}" requiredMessage="Arabic Title is Required">
+												</h:inputText>
+												</div>
+											</div>
+											<div class="col-md-12 mt-4">
+												<div class="input-field   mb-3">
+													<label>Topic (Arabic)</label> <h:inputText id="topic_arabic" dir="RTL"
+																					  class="form-control rtl" value="#{consultationBean.consultationTopicArabic}" required="#{consultationBean.arabicFieldsRequired}" requiredMessage="Arabic Topic is Required" >
+												</h:inputText>
+												</div>
+											</div>
+
+											<div class="col-md-12 mt-4">
+												<div class="input-field   mb-3">
+													<label>Description (Arabic)</label> <h:inputTextarea id="description_arabic" dir="RTL"
+																								class="form-control rtl" value="#{consultationBean.consultationDescriptionArabic}" required="#{consultationBean.arabicFieldsRequired}" requiredMessage="Arabic Description is Required" >
+												</h:inputTextarea>
+												</div>
+											</div>
+
+
+											<div class="col-md-12 mt-4">
 											<div class="input-field   mb-3">
 
 												<ui:fragment rendered="#{consultationBean.editMode}">
 													<label>Existing Image</label>
-													<p:graphicImage value="#{consultationBean.imageUrl}"  width="100px" height="100px" alt="Value Image not found" />
+													<p:graphicImage value="#{consultationBean.imageUrl}"  width="100px" height="100px" alt="Image not found" />
 												</ui:fragment>
 												<br></br>
 												<label>Upload Image</label>
-												<p:fileUpload value="#{consultationBean.uploadedFile}" listener="#{consultationBean.handleFileUpload}"  mode="advanced" dragDropSupport="true" ajax="false" auto="true"
+												<p:fileUpload value="#{consultationBean.uploadedFile}" listener="#{consultationBean.handleFileUpload}" mode="advanced" dragDropSupport="true" ajax="false" auto="true"
 															  multiple="false" update="messages" sizeLimit="#{consultationBean.fileSizeInBytes}" allowTypes="/(\.|\/)(jpe?g|png)$/" />
 												<p:growl id="messages" showDetail="true" />
 											</div>
@@ -70,7 +97,7 @@
 										<div class="col-md-12 mt-4">
 											<div class="input-field   mb-3">
 												<label>Sector *</label>
-												<p:selectOneMenu class="form-control rtl" id="sector" required="true" requiredMessage="Required" value="#{consultationBean.selectedSector}" style="width:150px">
+												<p:selectOneMenu class="form-control rtl" id="sector" required="true" requiredMessage="Sector is required" value="#{consultationBean.selectedSector}" style="width:150px">
 													<f:selectItem itemLabel="Select Sector" itemValue="" noSelectionOption="true" />
 													<f:selectItems value="#{consultationBean.sectorDropdown}" />
 												</p:selectOneMenu>
@@ -82,9 +109,10 @@
 											<div class="date_range">
 												<label>Start and End Date
 												</label>
-												<p:datePicker id="dateRange" selectionMode="range" showIcon="true" style="width:250px"
+												<p:datePicker id="dateRange" selectionMode="range" showIcon="true" styleClass="date_range" style="width:250px"
 															  class="form-control rtl"
 															  value="#{consultationBean.dateRange}"
+															  required="true" requiredMessage="Start and End Dates are required"
 															  monthNavigator="true" yearNavigator="true"
 															  pattern="MMM d , yyyy" mindate="#{consultationBean.today}">
 												</p:datePicker>
@@ -95,7 +123,7 @@
 											<div class="col-md-12 mt-4" >
 												<div class="input-field mb-3">
 													<label>Status</label>
-													<p:selectOneButton value="#{consultationBean.status}">
+													<p:selectOneButton styleClass="switch-chk-label switch-input" value="#{consultationBean.status}">
 														<f:selectItem itemLabel="Open" itemValue="O" />
 														<f:selectItem itemLabel="Closed" itemValue="C" />
 													</p:selectOneButton>
@@ -108,11 +136,10 @@
 								</div>
 								<br />
 								<div class="col-md-12 align-items-end address_full_row">
-									<div class="buttons ">
-
+									<div class="buttons" style="width: 1000px">
 										<p:commandButton class="btn" value="Submit" action="#{consultationBean.saveOrUpdateConsultation}" update="growl,@form"/>
+										<br> </br>
 										<p:commandButton class="btn cancel-btn" value="Reset" action="#{consultationBean.resetConsultationForm}" resetValues="true"  update="@form"/>
-
 									</div>
 								</div>
 								<br />
@@ -120,6 +147,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 			</div>
 			</h:form>
 		</ui:define>
