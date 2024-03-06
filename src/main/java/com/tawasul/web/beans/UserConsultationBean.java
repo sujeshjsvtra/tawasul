@@ -101,7 +101,7 @@ public class UserConsultationBean {
 	        return String.format("%s %d%s, %d", month, dayOfMonth, suffix, year);
 	    }
 
-	public void filterSeacrhConsultation() {
+	public void filterSearchConsultation() {
 		setConsultations(userViewServiceImpl.getAllConsultationsByRangeOrSector(type, getSectorId(), getRange()));
 	}
 	
