@@ -58,7 +58,7 @@
                     <h:outputText value="#{con.description}"/>
                 </p:column>
 
-                <p:column headerText="Sector" filterBy="#{consultationBean.fetchSectorName(con)}" filterMatchMode="contains">
+                <p:column headerText="Sector">
                     <h:outputText value="#{consultationBean.fetchSectorName(con)}"/>
                 </p:column>
 
@@ -76,8 +76,16 @@
 
 
                 <p:column headerText="Status">
-<!--                    <h:outputLabel style="background: #CC2B19;width: 100%; color: white;" value="#{consultationBean.fetchStatus(con)}"/>-->
-                    <h:outputLabel styleClass="#{consultationBean.isOpen(con) ? open-status : closed-status}" value="#{consultationBean.fetchStatus(con)}"/>
+                    <h:panelGroup rendered="#{con.status eq 'O'}">
+                        <span class="open-status">
+                            <h:outputLabel value="#{consultationBean.fetchStatus(con)}"/>
+                        </span>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{con.status eq 'C'}">
+                        <span class="closed-status">
+                            <h:outputLabel value="#{consultationBean.fetchStatus(con)}"/>
+                        </span>
+                    </h:panelGroup>
                 </p:column>
 
                 <p:column headerText="Edit">

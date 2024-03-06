@@ -539,11 +539,22 @@ a {
 }
 
 .open-status {
-	background: #CC2B19; !important;
-	color: white; !important;
+	background: #CC2B19;
+	color: white;
+	padding: 5px;
+	border-radius: 10px;
+	width: 100%;
 }
 
 .closed-status {
-	background: #00AA55; !important;
-	color: white; !important;
+	background: #00AA55;
+	color: white;
+	padding: 5px;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.icon-button {
+	background: none;
+	border: none;
 }

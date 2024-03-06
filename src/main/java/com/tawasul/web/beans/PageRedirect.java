@@ -42,8 +42,8 @@ public class PageRedirect implements Serializable {
 			setActiveMenu(SystemConstants.DASHBOARD_MENU);
 			setActiveLabel("");
 			break;
-		case SystemConstants.VIEW_SECTOR_MENU:
-			redirectToPage(SystemConstants.VIEW_SECTOR_SCREEN + facesRedirect);
+		case SystemConstants.VIEW_SECTORS_MENU:
+			redirectToPage(SystemConstants.VIEW_SECTORS_SCREEN + facesRedirect);
 			setActiveMenu(SystemConstants.COMMON_SECTOR_MENU);
 			setActiveLabel(SystemConstants.LABEL_VIEW_SECTOR);
 			break;

@@ -7,14 +7,14 @@ public class SystemConstants {
 	
 	public static final String ADMIN_DASHBOARD_SCREEN="admin-dashboard.xhtml";
 	public static final String LOGIN_SCREEN="login.xhtml";
-	public static final String VIEW_SECTOR_SCREEN="view-sector.xhtml";
+	public static final String VIEW_SECTORS_SCREEN="view-sectors.xhtml";
 	public static final String ADD_SECTOR_SCREEN="add-sector.xhtml";
 	public static final String VIEW_CONSULTATIONS_SCREEN="view-consultations.xhtml";
 	public static final String ADD_CONSULTATIONS_SCREEN="add-consultation.xhtml";
 	public static final String VIEW_INITIATIVES_SCREEN="initiatives.xhtml";
 	
 	public static final String DASHBOARD_MENU="admin-dashboard";
-	public static final String VIEW_SECTOR_MENU="view-sector";
+	public static final String VIEW_SECTORS_MENU="view-sectors";
 	public static final String ADD_SECTOR_MENU="add-sector";
 	public static final String VIEW_CONSULTATIONS_MENU="view-consultations";
 	public static final String ADD_CONSULTATIONS_MENU="add-consultations";
