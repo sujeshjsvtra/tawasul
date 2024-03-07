@@ -2,9 +2,7 @@ package com.tawasul.web.beans;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,6 +70,7 @@ public class ConsultationBean implements Serializable {
 	private File existingFile;
 	private String placeholderImage;
 	private List<Date> dateRange;
+	private List<Date> dateRangeToFilterConsultations;
 	//Current Date
 	private Date today;
 	private String[] sectorsToFilterConsultations;
@@ -142,7 +141,7 @@ public class ConsultationBean implements Serializable {
 		System.out.println("Arabic fields: " +isArabicFieldsRequired());
 	}
 
-	public void selectSectors() {
+	public void filterBySectors() {
 		List<String> sectorsList = Arrays.stream(getSectorsToFilterConsultations()).distinct()
 				.collect(Collectors.toList());
 
@@ -156,6 +155,34 @@ public class ConsultationBean implements Serializable {
 			setConsultations(consultationService.populateConsultations());
 		}
 	}
+
+	public void filterByDateRange() {
+		System.out.println("Entered Date Range " + getDateRangeToFilterConsultations());
+
+		if (getDateRangeToFilterConsultations() != null) {
+			Date startDate = getDateRangeToFilterConsultations().get(0);
+			Date endDate = getDateRangeToFilterConsultations().get(1);
+
+			List<Consultation> filteredConsultations = consultations.stream()
+					.filter(consultation -> isWithinDateRange(consultation, startDate, endDate))
+					.collect(Collectors.toList());
+			setConsultations(filteredConsultations);
+			System.out.println("Filtered consultations : " + filteredConsultations.size());
+
+		} else {
+			setConsultations(consultationService.populateConsultations());
+		}
+
+	}
+
+	private boolean isWithinDateRange(Consultation consultation, Date startDate, Date endDate) {
+		Date consultationStartDate = consultation.getStartDate();
+		Date consultationEndDate = consultation.getEndDate();
+
+		return consultationStartDate != null && consultationEndDate != null &&
+				!consultationEndDate.before(startDate) && !consultationStartDate.after(endDate);
+	}
+
 
 	public void resetConsultationForm() {
 		setConsultationName("");

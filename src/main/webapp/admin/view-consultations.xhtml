@@ -10,6 +10,8 @@
 <h:body>
     <ui:composition template="/WEB-INF/templates/admin-template.xhtml">
         <ui:define name="content">
+            <h1></h1>
+            <h:outputText value="#{msg['sector.title']}" dir="RTL" />
             <p:growl id="growl" sticky="false" showDetail="true" life="2000"/>
             <h:form>
                 <div class="row ">
@@ -27,11 +29,17 @@
                 <p:selectCheckboxMenu onchange="PF('consultations-table').filter()" id="sectors-checkbox-menu" value="#{consultationBean.sectorsToFilterConsultations}"
                                       label="Sectors" multiple="true"
                                       filter="true" filterMatchMode="contains" panelStyle="width:250px">
-                    <p:ajax event="change" listener="#{consultationBean.selectSectors}" update="consultations"/>
+                    <p:ajax event="change" listener="#{consultationBean.filterBySectors}" update="consultations"/>
                     <f:selectItems value="#{consultationBean.sectorsToFilterConsultations}" />
                     <f:selectItems value="#{consultationBean.sectorDropdown}" />
                 </p:selectCheckboxMenu>
             </div>
+                <div class="date_range">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                    <p:datePicker id="range" selectionMode="range" showIcon="true" value="#{consultationBean.dateRangeToFilterConsultations}" readonlyInput="true" showButtonBar="true">
+                        <p:ajax event="change" listener="#{consultationBean.filterByDateRange}" update="consultations"/>
+                            </p:datePicker>
+                </div>
             <p:dataTable id="consultations" widgetVar="consultations-table" styleClass="custom-datatable" var="con" rowKey="#{con.id}"
                          rowIndexVar="index" sortBy="#{con.createdAt}"
                          value="#{consultationBean.consultations}"
